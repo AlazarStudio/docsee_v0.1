@@ -1,0 +1,85 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.mainForm{
+    width: 100%;
+    height: calc(100vh - 40px);
+    background-color: #fff;
+    padding: 40px 20px;
+    border-radius: 40px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.205);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.mainForm_buttons{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.mainForm_buttons_btn{
+    padding: 15px 20px;
+    background-color: #835de1;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.mainForm_buttons_btn:hover{
+    background-color: #a78bfa;
+}
+
+.mainForm_docs{
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.mainForm_docs_element{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 80px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.mainForm_docs_element:hover{
+    background-color: #f3f3f3;
+}
+
+.mainForm_docs_element_info{
+    display: flex;
+    gap: 40px;
+}
+
+.mainForm_docs_element_btns{
+    display: flex;
+    gap: 20px;
+}
+
+.mainForm_docs_element_name,
+.mainForm_docs_element_contr,
+.mainForm_docs_element_date,
+.mainForm_docs_element_price{
+    font-size: 16px;
+}
+
+.mainForm_docs_element_contr{
+    display: flex;
+    gap: 5px;
+}
+
+

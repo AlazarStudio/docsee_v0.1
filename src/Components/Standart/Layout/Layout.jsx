@@ -8,7 +8,7 @@ import Footer from "../../Blocks/Footer/Footer";
 function Layout({ children, ...props }) {
     return (
         <>
-            <Header/>
+            {/* <Header/> */}
             <Outlet />
             {/* <Footer/> */}
         </>
