@@ -5,14 +5,14 @@ import Header from "../../Blocks/Header/Header"
 import Footer from "../../Blocks/Footer/Footer";
 
 
-function Empty({ children, ...props }) {
+function Layout({ children, ...props }) {
     return (
         <>
             <Header/>
             <Outlet />
-            <Footer/>
+            {/* <Footer/> */}
         </>
     );
 }
 
-export default Empty;
+export default Layout;
