@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { rubles } from 'rubles';
 import classes from './CreateDocument.module.css';
 
-function CreateDocument({ closeModal, ipList }) {
+function CreateDocument({ closeModal, ipList, counterpartyList }) {
     const [contractType, setContractType] = useState('');
     const [numberDate, setNumberDate] = useState('');
     const [writtenDate, setWrittenDate] = useState('');
@@ -92,7 +92,7 @@ function CreateDocument({ closeModal, ipList }) {
                     <select value={ip} onChange={(e) => setIp(e.target.value)}>
                         <option value="" disabled>Выберите ИП</option>
                         {ipList.map((ipItem, index) => (
-                            <option key={index} value={ipItem.fullName}>{ipItem.fullName}</option>
+                            <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                         ))}
                     </select>
                 </div>
@@ -101,9 +101,9 @@ function CreateDocument({ closeModal, ipList }) {
                     <div className={classes.modalSelectButton}>
                         <select value={contragent} onChange={(e) => setContragent(e.target.value)}>
                             <option value="" disabled>Выберите контрагента</option>
-                            <option value="contr1">Контрагент 1</option>
-                            <option value="contr2">Контрагент 2</option>
-                            <option value="contr3">Контрагент 3</option>
+                            {counterpartyList.map((ipItem, index) => (
+                                <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
+                            ))}
                         </select>
                         <button type="button" className={classes.addButton}>+</button>
                     </div>
@@ -114,9 +114,9 @@ function CreateDocument({ closeModal, ipList }) {
                         <div className={classes.modalSelectButton}>
                             <select value={receiver} onChange={(e) => setReceiver(e.target.value)}>
                                 <option value="" disabled>Выберите получателя услуг</option>
-                                <option value="receiver1">Получатель 1</option>
-                                <option value="receiver2">Получатель 2</option>
-                                <option value="receiver3">Получатель 3</option>
+                                {counterpartyList.map((ipItem, index) => (
+                                    <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
+                                ))}
                             </select>
                             <button type="button" className={classes.addButton}>+</button>
                         </div>

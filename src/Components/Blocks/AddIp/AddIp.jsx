@@ -15,7 +15,8 @@ function AddIp({ onSubmit }) {
         bik: '',
         ks: '',
         email: '',
-        phone: ''
+        phone: '',
+        orgName: '',
     });
 
     const handleIpDataChange = (event) => {
@@ -25,7 +26,13 @@ function AddIp({ onSubmit }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(ipData);
+        
+        const updatedIpData = {
+            ...ipData,
+            orgName: ipData.fullName + ' ' + ipData.bank,
+        };
+
+        onSubmit(updatedIpData);
         setIpData({
             fullName: '',
             shortName: '',
@@ -39,7 +46,8 @@ function AddIp({ onSubmit }) {
             bik: '',
             ks: '',
             email: '',
-            phone: ''
+            phone: '',
+            orgName: '',
         });
     };
 

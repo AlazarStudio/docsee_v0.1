@@ -3,14 +3,17 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import Modal from '../Modal/Modal';
 import CreateDocument from '../CreateDocument/CreateDocument';
 import AddIp from '../AddIp/AddIp';
+import AddCounterparty from '../AddCounterparty/AddCounterparty';
 import classes from './AddDocs.module.css';
 
 function AddDocs() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
+    const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
 
     const [ipList, setIpList] = useState([]); // Список для хранения ИП
+    const [counterpartyList, setCounterpartyList] = useState([]); // Список для хранения контрагентов
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -36,9 +39,22 @@ function AddDocs() {
         setIsIpModalOpen(false);
     };
 
+    const openCounterpartyModal = () => {
+        setIsCounterpartyModalOpen(true);
+    };
+
+    const closeCounterpartyModal = () => {
+        setIsCounterpartyModalOpen(false);
+    };
+
     const handleIpSubmit = (ipData) => {
         setIpList(prevList => [...prevList, ipData]);
         closeIpModal();
+    };
+
+    const handleCounterpartySubmit = (counterpartyData) => {
+        setCounterpartyList(prevList => [...prevList, counterpartyData]);
+        closeCounterpartyModal();
     };
 
     return (
@@ -47,7 +63,7 @@ function AddDocs() {
                 <div className={classes.mainForm_buttons}>
                     <div className={classes.mainForm_buttons_btn} onClick={openModal}>Создать документ</div>
                     <div className={classes.mainForm_buttons_btn} onClick={openIpModal}>Добавить ИП</div>
-                    <div className={classes.mainForm_buttons_btn}>Добавить контрагента</div>
+                    <div className={classes.mainForm_buttons_btn} onClick={openCounterpartyModal}>Добавить контрагента</div>
                 </div>
 
                 <div className={classes.mainForm_docs}>
@@ -77,11 +93,15 @@ function AddDocs() {
             </div>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <CreateDocument closeModal={closeModal} ipList={ipList} />
+                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList}/>
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>
                 <AddIp onSubmit={handleIpSubmit} />
+            </Modal>
+
+            <Modal isOpen={isCounterpartyModalOpen} onClose={closeCounterpartyModal}>
+                <AddCounterparty onSubmit={handleCounterpartySubmit} />
             </Modal>
         </div>
     );
