@@ -38,3 +38,12 @@ main {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #835de1;
 }
+
+input,
+select {
+    height: 40px;
+    border: 1px solid #cecece;
+    outline: none;
+    border-radius: 5px;
+    padding: 0 10px;
+}
