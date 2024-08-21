@@ -1,7 +1,44 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from './AddDocs.module.css';
 
+function DropdownMenu({ options, onClose }) {
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                onClose();
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [onClose]);
+
+    return (
+        <div ref={menuRef} className={classes.dropdownMenu}>
+            {options.map((option, index) => (
+                <div key={index} className={classes.dropdownMenu_item}>
+                    {option}
+                </div>
+            ))}
+        </div>
+    );
+}
+
 function AddDocs({ children, ...props }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -20,9 +57,18 @@ function AddDocs({ children, ...props }) {
                             <div className={classes.mainForm_docs_element_price}>115 000 ₽</div>
                         </div>
                         <div className={classes.mainForm_docs_element_btns}>
-                            <div className={classes.mainForm_buttons_btn}>Создать счет</div>
-                            <div className={classes.mainForm_buttons_btn}>Создать акт</div>
-                            <div className={classes.mainForm_buttons_btn}>Создать отчет</div>
+                            <img src="/dots.png" alt="" onClick={toggleMenu} />
+                            {isMenuOpen && (
+                                <DropdownMenu
+                                    options={[
+                                        "Создать счет",
+                                        "Создать акт",
+                                        "Создать отчет",
+                                        "Создать бриф",
+                                    ]}
+                                    onClose={closeMenu}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

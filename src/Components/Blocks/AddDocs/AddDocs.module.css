@@ -56,6 +56,10 @@
     border-radius: 10px;
 }
 
+.mainForm_docs_element:nth-child(2n-1){
+    background-color: #f3f3f38f;
+}
+
 .mainForm_docs_element:hover{
     background-color: #f3f3f3;
 }
@@ -68,6 +72,12 @@
 .mainForm_docs_element_btns{
     display: flex;
     gap: 20px;
+    position: relative;
+}
+
+.mainForm_docs_element_btns img{
+    height: 20px;
+    cursor: pointer;
 }
 
 .mainForm_docs_element_name,
@@ -80,6 +90,35 @@
 .mainForm_docs_element_contr{
     display: flex;
     gap: 5px;
+}
+
+.dropdownMenu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #f3f3f3;
+    z-index: 1000;
+    margin-top: 5px;
+    top: 20px;
+    right: 10px;
+    width: 160px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #00000028;
+}
+
+.dropdownMenu_item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdownMenu_item:last-child {
+    border-bottom: none;
+}
+
+.dropdownMenu_item:hover {
+    background-color: #a78bfa;
+    color: #fff;
 }
 
 
