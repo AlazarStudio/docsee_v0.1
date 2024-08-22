@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import Modal from '../Modal/Modal';
 import CreateDocument from '../CreateDocument/CreateDocument';
 import AddIp from '../AddIp/AddIp';
 import AddCounterparty from '../AddCounterparty/AddCounterparty';
 import classes from './AddDocs.module.css';
+import { GET_DATA } from '../../../../requests.js'
 
 function AddDocs() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,12 @@ function AddDocs() {
 
     const [ipList, setIpList] = useState([]); // Список для хранения ИП
     const [counterpartyList, setCounterpartyList] = useState([]); // Список для хранения контрагентов
+
+
+    useEffect(() => {
+        GET_DATA('ipName.json', setIpList);
+        GET_DATA('contragents.json', setCounterpartyList);
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);

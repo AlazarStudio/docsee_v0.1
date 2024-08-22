@@ -13,6 +13,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
+                    placeholder='Индивидуальный предприниматель Уртенов Азамат Заурович'
                 />
             </div>
 
@@ -25,35 +26,77 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="shortName"
                     value={formData.shortName}
                     onChange={handleChange}
+                    placeholder='ИП Уртенов А.З.'
                 />
             </div>
 
             <div>
-                <label>ФИО ИП</label>
+                <label>Действует на основании</label>
                 <input
                     required
                     className={classes.input}
                     type="text"
-                    name="directorName"  // Можно оставить как "directorName", хотя в данном случае это ИП
+                    name="basis"
+                    value={formData.basis}
+                    onChange={handleChange}
+                    placeholder='ОРГНИП'
+                />
+            </div>
+            
+            <div>
+                <label>Печать</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="print"
+                    value={formData.print}
+                    onChange={handleChange}
+                    placeholder='Да или нет'
+                />
+            </div>
+
+            <div>
+                <label>Должность</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="post"
+                    value={formData.post}
+                    onChange={handleChange}
+                    placeholder='Индивидуальный предприниматель'
+                />
+            </div>
+
+            <div>
+                <label>ФИО</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="directorName" 
                     value={formData.directorName}
                     onChange={handleChange}
+                    placeholder='Уртенов Азамат Заурович'
                 />
             </div>
 
             <div>
-                <label>ФИО ИП в род. падеже</label>
+                <label>Должность и ФИО (в род. падеже)</label>
                 <input
                     required
                     className={classes.input}
                     type="text"
-                    name="directorFullNameGen"  // Можно оставить как "directorFullNameGen"
+                    name="directorFullNameGen"
                     value={formData.directorFullNameGen}
                     onChange={handleChange}
+                    placeholder='Индивидуального предпринимателя Уртенова Азамата Зауровича'
                 />
             </div>
 
             <div>
-                <label>Инициалы ИП</label>
+                <label>И.О. Фамилия</label>
                 <input
                     required
                     className={classes.input}
@@ -61,6 +104,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="initials"
                     value={formData.initials}
                     onChange={handleChange}
+                    placeholder='А.З. Уртенов'
                 />
             </div>
 
@@ -73,6 +117,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
+                    placeholder='369000, КЧР, г. Черкесск, ул. Ленина, дом 53.'
                 />
             </div>
 
@@ -85,6 +130,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="INN"
                     value={formData.INN}
                     onChange={handleChange}
+                    placeholder='0900001180'
                 />
             </div>
 
@@ -97,11 +143,12 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="OGRNIP"
                     value={formData.OGRNIP}
                     onChange={handleChange}
+                    placeholder='1210900002950'
                 />
             </div>
 
             <div>
-                <label>Расчётный счёт</label>
+                <label>Р/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -109,11 +156,12 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="RSCH"
                     value={formData.RSCH}
                     onChange={handleChange}
+                    placeholder='40703810908000000463'
                 />
             </div>
 
             <div>
-                <label>Корреспондентский счёт</label>
+                <label>К/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -121,6 +169,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="KSCH"
                     value={formData.KSCH}
                     onChange={handleChange}
+                    placeholder='30101810500000000773'
                 />
             </div>
 
@@ -133,6 +182,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="bankName"
                     value={formData.bankName}
                     onChange={handleChange}
+                    placeholder='в СТАВРОПОЛЬСКОМ Ф-Л ПАО "ПРОМСВЯЗЬБАНК", Ставрополь'
                 />
             </div>
 
@@ -145,6 +195,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="BIK"
                     value={formData.BIK}
                     onChange={handleChange}
+                    placeholder='040702773'
                 />
             </div>
 
@@ -157,6 +208,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    placeholder='reception@moibiz09.ru'
                 />
             </div>
 
@@ -169,6 +221,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    placeholder='8 (8782) 25-02-27'
                 />
             </div>
         </>

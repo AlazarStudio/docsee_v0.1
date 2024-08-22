@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import classes from './AddIp.module.css';
+import axios from 'axios';
 
 function AddIp({ onSubmit }) {
     const [ipData, setIpData] = useState({
@@ -24,15 +25,24 @@ function AddIp({ onSubmit }) {
         setIpData(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const updatedIpData = {
             ...ipData,
-            orgName: ipData.fullName + ' ' + ipData.bank,
+            orgName: ipData.shortName + ' ' + ipData.bank,
         };
 
         onSubmit(updatedIpData);
+
+        try {
+            await axios.post('http://localhost:3000/add-ip', { formData: updatedIpData });
+            console.log("Form Data: ", updatedIpData);
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
+
         setIpData({
             fullName: '',
             shortName: '',

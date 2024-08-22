@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { rubles } from 'rubles';
 import classes from './CreateDocument.module.css';
+import axios from 'axios';
 
 function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal }) {
     const [contractType, setContractType] = useState('');
@@ -22,6 +23,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     const handleContractTypeChange = (event) => {
         setContractType(event.target.value);
     };
+
 
     function getDate(dateInfo, type = 'numeric') {
         const date = new Date(dateInfo);
@@ -47,23 +49,23 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
 
         const regex = /(\d{2} копеек?)$/;
         const match = sum.length > 0 && sumForDogovor.match(regex);
-    
+
         if (match && sum.length > 0) {
             const kopiekiPart = match[0];
-            const rublesPart = sumForDogovor.replace(regex, '').trim(); 
+            const rublesPart = sumForDogovor.replace(regex, '').trim();
             const finalSumForDogovor = `( ${rublesPart} ) ${kopiekiPart}`;
-            
+
             setWrittenAmountDogovor(finalSumForDogovor);
         } else {
             setWrittenAmountDogovor(sumForDogovor);
         }
-    
+
         setAmount(sum.toLocaleString('ru-RU'));
         setStoimostNumber(String(Number(sum.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
         setWrittenAmountAct(rubles(sum));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const selectedIp = ipList.find(ipItem => ipItem.orgName === ip);
@@ -75,7 +77,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             template,
             ip: selectedIp ? selectedIp : null,
             contragent: selectedContragent ? selectedContragent : null,
-            receiver: contractType === 'трехсторонний' ? selectedReceiver : null,
+            receiver: contractType === '3' ? selectedReceiver : null,
             contractNumber,
             numberDate,
             writtenDate,
@@ -86,8 +88,16 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             stoimostNumber,
             contractEndDate,
         };
-        console.log("Form Data: ", formData);
-        closeModal();
+
+        try {
+            await axios.post('http://localhost:3000/generate', { formData });
+            console.log("Form Data: ", formData);
+            closeModal();
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
+
     };
 
     return (
@@ -98,8 +108,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Тип договора:</label>
                     <select required value={contractType} onChange={handleContractTypeChange}>
                         <option value="" disabled>Выберите тип договора</option>
-                        <option value="двухсторонний">Двухсторонний</option>
-                        <option value="трехсторонний">Трехсторонний</option>
+                        <option value="2">Двухсторонний</option>
+                        <option value="3">Трехсторонний</option>
                     </select>
                 </div>
                 <div>
@@ -134,7 +144,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                         <button type="button" className={classes.addButton} onClick={openCounterpartyModal}>+</button>
                     </div>
                 </div>
-                {contractType === 'трехсторонний' && (
+                {contractType === '3' && (
                     <div>
                         <label>Выбор получателей услуг:</label>
                         <div className={classes.modalSelectButton}>

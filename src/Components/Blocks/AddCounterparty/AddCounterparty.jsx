@@ -4,6 +4,7 @@ import GosCounterpartyForm from '../GosCounterpartyForm/GosCounterpartyForm';
 import MSPCounterpartyForm from '../MSPCounterpartyForm/MSPCounterpartyForm';
 import IPCounterpartyForm from '../IPCounterpartyForm/IPCounterpartyForm';
 import SelfEmployedCounterpartyForm from '../SelfEmployedCounterpartyForm/SelfEmployedCounterpartyForm';
+import axios from 'axios';
 
 function AddCounterparty({ onSubmit }) {
     const [counterpartyType, setCounterpartyType] = useState('');
@@ -13,6 +14,9 @@ function AddCounterparty({ onSubmit }) {
         orgName: '',
         fullName: '',
         shortName: '',
+        basis: '',
+        print: '',
+        post: '',
         directorName: '',
         directorFullNameGen: '',
         initials: '',
@@ -30,7 +34,6 @@ function AddCounterparty({ onSubmit }) {
         bankName: '',
         BIK: '',
         OKOGU: '',
-        OKOPFCode: '',
         email: '',
         phone: '',
         type: counterpartyType,
@@ -41,6 +44,9 @@ function AddCounterparty({ onSubmit }) {
         orgName: '',
         fullName: '',
         shortName: '',
+        basis: '',
+        print: '',
+        post: '',
         directorName: '',
         directorFullNameGen: '',
         initials: '',
@@ -62,6 +68,9 @@ function AddCounterparty({ onSubmit }) {
         orgName: '',
         fullName: '',
         shortName: '',
+        basis: '',
+        print: '',
+        post: '',
         directorName: '',  // Для ИП это будет ФИО
         directorFullNameGen: '',  // ФИО в род. падеже
         initials: '',
@@ -81,7 +90,9 @@ function AddCounterparty({ onSubmit }) {
     const [selfEmployedCounterpartyData, setSelfEmployedCounterpartyData] = useState({
         orgName: '',
         fullName: '',
-        basis: '',  // Действует на основании
+        basis: '',
+        print: '',
+        post: '', 
         initials: '',
         address: '',
         INN: '',
@@ -112,25 +123,25 @@ function AddCounterparty({ onSubmit }) {
         setSelfEmployedCounterpartyData(prevState => ({ ...prevState, type: counterpartyType }))
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let updatedData;
         if (counterpartyType === 'Гос') {
             updatedData = {
                 ...gosCounterpartyData,
-                orgName: gosCounterpartyData.fullName + ' ' + gosCounterpartyData.bankName
+                orgName: gosCounterpartyData.shortName + ' ' + gosCounterpartyData.bankName
             };
             setGosCounterpartyData(updatedData);
         } else if (counterpartyType === 'МСП') {
             updatedData = {
                 ...mspCounterpartyData,
-                orgName: mspCounterpartyData.fullName + ' ' + mspCounterpartyData.bankName
+                orgName: mspCounterpartyData.shortName + ' ' + mspCounterpartyData.bankName
             };
             setMspCounterpartyData(updatedData);
         } else if (counterpartyType === 'ИП') {
             updatedData = {
                 ...ipCounterpartyData,
-                orgName: ipCounterpartyData.fullName + ' ' + ipCounterpartyData.bankName
+                orgName: ipCounterpartyData.shortName + ' ' + ipCounterpartyData.bankName
             };
             setIpCounterpartyData(updatedData);
         } else if (counterpartyType === 'Самозанятый') {
@@ -141,6 +152,14 @@ function AddCounterparty({ onSubmit }) {
             setSelfEmployedCounterpartyData(updatedData);
         }
         onSubmit(updatedData);
+
+        try {
+            await axios.post('http://localhost:3000/add-contragent', { formData: updatedData });
+            console.log("Form Data: ", updatedData);
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
     };
 
     return (

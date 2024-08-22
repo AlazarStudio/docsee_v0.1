@@ -13,6 +13,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
+                    placeholder='Автономная некоммерческая организация «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
                 />
             </div>
 
@@ -25,11 +26,51 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="shortName"
                     value={formData.shortName}
                     onChange={handleChange}
+                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
                 />
             </div>
 
             <div>
-                <label>ФИО Директора</label>
+                <label>Действует на основании</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="basis"
+                    value={formData.basis}
+                    onChange={handleChange}
+                    placeholder='Устава'
+                />
+            </div>
+            
+            <div>
+                <label>Печать</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="print"
+                    value={formData.print}
+                    onChange={handleChange}
+                    placeholder='Да или нет'
+                />
+            </div>
+
+            <div>
+                <label>Должность</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="post"
+                    value={formData.post}
+                    onChange={handleChange}
+                    placeholder='Директор'
+                />
+            </div>
+
+            <div>
+                <label>ФИО</label>
                 <input
                     required
                     className={classes.input}
@@ -37,11 +78,12 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="directorName"
                     value={formData.directorName}
                     onChange={handleChange}
+                    placeholder='Хубиева Диана Казимовна'
                 />
             </div>
 
             <div>
-                <label>ФИО Директора в род. падеже</label>
+                <label>Должность и ФИО (в род. падеже)</label>
                 <input
                     required
                     className={classes.input}
@@ -49,11 +91,12 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="directorFullNameGen"
                     value={formData.directorFullNameGen}
                     onChange={handleChange}
+                    placeholder='Директора Хубиевой Дианы Казимовны'
                 />
             </div>
 
             <div>
-                <label>Инициалы директора</label>
+                <label>И.О. Фамилия</label>
                 <input
                     required
                     className={classes.input}
@@ -61,6 +104,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="initials"
                     value={formData.initials}
                     onChange={handleChange}
+                    placeholder='Д.К. Хубиева'
                 />
             </div>
 
@@ -73,6 +117,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
+                    placeholder='369000, КЧР, г. Черкесск, ул. Ленина, дом 53.'
                 />
             </div>
 
@@ -85,6 +130,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="INN"
                     value={formData.INN}
                     onChange={handleChange}
+                    placeholder='0900001180'
                 />
             </div>
 
@@ -97,6 +143,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="KPP"
                     value={formData.KPP}
                     onChange={handleChange}
+                    placeholder='090001001'
                 />
             </div>
 
@@ -109,6 +156,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OKTMO"
                     value={formData.OKTMO}
                     onChange={handleChange}
+                    placeholder='91701000001'
                 />
             </div>
 
@@ -121,6 +169,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OKATO"
                     value={formData.OKATO}
                     onChange={handleChange}
+                    placeholder='91401000000'
                 />
             </div>
 
@@ -133,6 +182,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OKPO"
                     value={formData.OKPO}
                     onChange={handleChange}
+                    placeholder='54056422'
                 />
             </div>
 
@@ -145,6 +195,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OKOPF"
                     value={formData.OKOPF}
                     onChange={handleChange}
+                    placeholder='71400'
                 />
             </div>
 
@@ -157,11 +208,12 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OGRN"
                     value={formData.OGRN}
                     onChange={handleChange}
+                    placeholder='1210900002950'
                 />
             </div>
 
             <div>
-                <label>Лицевой счёт</label>
+                <label>Л/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -169,11 +221,12 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="LSCH"
                     value={formData.LSCH}
                     onChange={handleChange}
+                    placeholder='712НИЖ55001'
                 />
             </div>
 
             <div>
-                <label>Расчётный счёт</label>
+                <label>Р/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -181,11 +234,12 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="RSCH"
                     value={formData.RSCH}
                     onChange={handleChange}
+                    placeholder='40703810908000000463'
                 />
             </div>
 
             <div>
-                <label>Корреспондентский счёт</label>
+                <label>К/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -193,6 +247,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="KSCH"
                     value={formData.KSCH}
                     onChange={handleChange}
+                    placeholder='30101810500000000773'
                 />
             </div>
 
@@ -205,6 +260,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="bankName"
                     value={formData.bankName}
                     onChange={handleChange}
+                    placeholder='в СТАВРОПОЛЬСКОМ Ф-Л ПАО "ПРОМСВЯЗЬБАНК", Ставрополь,'
                 />
             </div>
 
@@ -217,6 +273,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="BIK"
                     value={formData.BIK}
                     onChange={handleChange}
+                    placeholder='040702773'
                 />
             </div>
 
@@ -229,18 +286,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="OKOGU"
                     value={formData.OKOGU}
                     onChange={handleChange}
-                />
-            </div>
-
-            <div>
-                <label>Код ОКОПФ</label>
-                <input
-                    required
-                    className={classes.input}
-                    type="text"
-                    name="OKOPFCode"
-                    value={formData.OKOPFCode}
-                    onChange={handleChange}
+                    placeholder='4210014'
                 />
             </div>
 
@@ -253,6 +299,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    placeholder='reception@moibiz09.ru'
                 />
             </div>
 
@@ -265,6 +312,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    placeholder='8 (8782) 25-02-27'
                 />
             </div>
         </>

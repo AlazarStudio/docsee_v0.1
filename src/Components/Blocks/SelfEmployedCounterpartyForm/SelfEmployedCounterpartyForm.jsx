@@ -13,9 +13,10 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
+                    placeholder='Уртенов Азамат Заурович'
                 />
             </div>
-
+                        
             <div>
                 <label>Действует на основании</label>
                 <input
@@ -25,11 +26,38 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="basis"
                     value={formData.basis}
                     onChange={handleChange}
+                    placeholder='зарегистрирован(а) в ФНС в качестве налогоплательщика налога на профессиональный доход в соответствии с ФЗ от 27.11.2018 №422-ФЗ)'
+                />
+            </div>
+            
+            <div>
+                <label>Печать</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="print"
+                    value={formData.print}
+                    onChange={handleChange}
+                    placeholder='Да или нет'
                 />
             </div>
 
             <div>
-                <label>Инициалы и фамилия</label>
+                <label>Должность</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="post"
+                    value={formData.post}
+                    onChange={handleChange}
+                    placeholder='Самозанятый'
+                />
+            </div>
+
+            <div>
+                <label>И.О. Фамилия</label>
                 <input
                     required
                     className={classes.input}
@@ -37,6 +65,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="initials"
                     value={formData.initials}
                     onChange={handleChange}
+                    placeholder='А.З. Уртенов'
                 />
             </div>
 
@@ -49,6 +78,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
+                    placeholder='369000, КЧР, г. Черкесск, ул. Ленина, дом 53'
                 />
             </div>
 
@@ -61,6 +91,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="INN"
                     value={formData.INN}
                     onChange={handleChange}
+                    placeholder='0900001180'
                 />
             </div>
 
@@ -73,6 +104,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="passportSeries"
                     value={formData.passportSeries}
                     onChange={handleChange}
+                    placeholder='2132'
                 />
             </div>
 
@@ -85,11 +117,12 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="passportNumber"
                     value={formData.passportNumber}
                     onChange={handleChange}
+                    placeholder='2133321'
                 />
             </div>
 
             <div>
-                <label>Расчётный счёт</label>
+                <label>Р/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -97,11 +130,12 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="RSCH"
                     value={formData.RSCH}
                     onChange={handleChange}
+                    placeholder='40703810908000000463'
                 />
             </div>
 
             <div>
-                <label>Корреспондентский счёт</label>
+                <label>К/СЧ</label>
                 <input
                     required
                     className={classes.input}
@@ -109,6 +143,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="KSCH"
                     value={formData.KSCH}
                     onChange={handleChange}
+                    placeholder='30101810500000000773'
                 />
             </div>
 
@@ -121,6 +156,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="bankName"
                     value={formData.bankName}
                     onChange={handleChange}
+                    placeholder='в СТАВРОПОЛЬСКОМ Ф-Л ПАО "ПРОМСВЯЗЬБАНК", Ставрополь,'
                 />
             </div>
 
@@ -133,6 +169,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="BIK"
                     value={formData.BIK}
                     onChange={handleChange}
+                    placeholder='040702773'
                 />
             </div>
 
@@ -145,6 +182,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    placeholder='reception@moibiz09.ru'
                 />
             </div>
 
@@ -157,6 +195,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    placeholder='8 (8782) 25-02-27'
                 />
             </div>
         </>
