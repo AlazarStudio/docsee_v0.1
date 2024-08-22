@@ -45,7 +45,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         let value = event.target.value;
         let sum = value.replace(' ', '');
 
-        let sumForDogovor = sum.length > 0 && rubles(sum).charAt(0).toUpperCase() + rubles(sum).slice(1);
+        // let sumForDogovor = sum.length > 0 && rubles(sum).charAt(0).toUpperCase() + rubles(sum).slice(1);
+        let sumForDogovor = rubles(sum);
 
         const regex = /(\d{2} копеек?)$/;
         const match = sum.length > 0 && sumForDogovor.match(regex);
@@ -53,11 +54,17 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         if (match && sum.length > 0) {
             const kopiekiPart = match[0];
             const rublesPart = sumForDogovor.replace(regex, '').trim();
-            const finalSumForDogovor = `( ${rublesPart} ) ${kopiekiPart}`;
 
-            setWrittenAmountDogovor(finalSumForDogovor);
-        } else {
-            setWrittenAmountDogovor(sumForDogovor);
+            const rubStartIndex = rublesPart.indexOf('рубл');
+            if (rubStartIndex !== -1) {
+                const beforeRub = rublesPart.slice(0, rubStartIndex).trim();
+                const afterRub = rublesPart.slice(rubStartIndex).trim();
+                const finalSumForDogovor = `(${beforeRub}) ${afterRub} ${kopiekiPart}`;
+
+                setWrittenAmountDogovor(finalSumForDogovor);
+            } else {
+                setWrittenAmountDogovor(sumForDogovor);
+            }
         }
 
         setAmount(sum.toLocaleString('ru-RU'));
@@ -83,12 +90,13 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             writtenDate,
             contractSubjectNom,
             contractSubjectGen,
-            writtenAmountAct: writtenAmountAct.charAt(0).toUpperCase() + writtenAmountAct.slice(1),
+            writtenAmountAct,
             writtenAmountDogovor,
             stoimostNumber,
             contractEndDate,
         };
 
+        // console.log("Form Data: ", formData);
         try {
             await axios.post('http://localhost:3000/generate', { formData });
             console.log("Form Data: ", formData);
@@ -97,7 +105,6 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
-
     };
 
     return (
