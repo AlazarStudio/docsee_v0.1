@@ -15,6 +15,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     const [contragent, setContragent] = useState('');
     const [receiver, setReceiver] = useState('');
     const [contractNumber, setContractNumber] = useState('');
+    const [contractJustNumber, setContractJustNumber] = useState('');
     const [contractSubjectNom, setContractSubjectNom] = useState('');
     const [contractSubjectGen, setContractSubjectGen] = useState('');
     const [contractEndDate, setContractEndDate] = useState('');
@@ -68,6 +69,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         }
 
         setAmount(sum.toLocaleString('ru-RU'));
+        setContractJustNumber(Number(value.replace(',', '.').split('.')[0]).toLocaleString('ru-RU'))
         setStoimostNumber(String(Number(sum.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
         setWrittenAmountAct(rubles(sum));
     };
@@ -86,6 +88,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             contragent: selectedContragent ? selectedContragent : null,
             receiver: contractType === '3' ? selectedReceiver : null,
             contractNumber,
+            contractJustNumber,
             numberDate,
             writtenDate,
             contractSubjectNom,

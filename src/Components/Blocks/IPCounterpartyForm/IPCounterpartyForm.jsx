@@ -31,6 +31,19 @@ function IPCounterpartyForm({ formData, handleChange }) {
             </div>
 
             <div>
+                <label>Наименование организации (в родительном падеже)</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="orgNameGen"
+                    value={formData.orgNameGen}
+                    onChange={handleChange}
+                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                />
+            </div>
+            
+            <div>
                 <label>Действует на основании</label>
                 <input
                     required

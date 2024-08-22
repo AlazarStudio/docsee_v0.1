@@ -31,6 +31,19 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             </div>
             
             <div>
+                <label>Наименование организации (в родительном падеже)</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="orgNameFen"
+                    value={formData.orgNameGen}
+                    onChange={handleChange}
+                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                />
+            </div>
+
+            <div>
                 <label>Печать</label>
                 <input
                     required

@@ -53,15 +53,25 @@
     align-items: center;
     gap: 80px;
     padding: 20px;
+    border-bottom: 1px solid #f3f3f3;
+    transition: all 0.3s ease-in-out;
+}
+
+.mainForm_docs_element:nth-child(1) {
+    background-color: #835de1;
+    color: #fff;
+    font-weight: 600;
     border-radius: 10px;
 }
 
-.mainForm_docs_element:nth-child(2n-1) {
-    background-color: #f3f3f38f;
-}
+.mainForm_docs_element:nth-child(1):hover {    
+    background-color: #835de1;
+} 
 
 .mainForm_docs_element:hover {
+    border-bottom: 1px solid transparent;
     background-color: #f3f3f3;
+    border-radius: 10px;
 }
 
 .mainForm_docs_element_info {
@@ -80,14 +90,30 @@
     cursor: pointer;
 }
 
-.mainForm_docs_element_name,
-.mainForm_docs_element_contr,
-.mainForm_docs_element_date,
-.mainForm_docs_element_price {
-    font-size: 16px;
+.mainForm_docs_element_name {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
 }
 
 .mainForm_docs_element_contr {
+    width: 500px;
     display: flex;
-    gap: 5px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.mainForm_docs_element_date {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.mainForm_docs_element_price {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
 }

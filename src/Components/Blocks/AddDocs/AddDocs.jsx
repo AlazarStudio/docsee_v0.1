@@ -13,13 +13,14 @@ function AddDocs() {
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
 
-    const [ipList, setIpList] = useState([]); // Список для хранения ИП
-    const [counterpartyList, setCounterpartyList] = useState([]); // Список для хранения контрагентов
-
+    const [ipList, setIpList] = useState([]);
+    const [counterpartyList, setCounterpartyList] = useState([]);
+    const [docList, setDocList] = useState([]);
 
     useEffect(() => {
         GET_DATA('ipName.json', setIpList);
         GET_DATA('contragents.json', setCounterpartyList);
+        GET_DATA('documents.json', setDocList);
     }, []);
 
     const toggleMenu = () => {
@@ -76,31 +77,42 @@ function AddDocs() {
                 <div className={classes.mainForm_docs}>
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
-                            <div className={classes.mainForm_docs_element_name}>Договор №1 от 16.08.2024</div>
-                            <div className={classes.mainForm_docs_element_contr}>ТПП КЧР - ИНН: 0919 0020 2707</div>
-                            <div className={classes.mainForm_docs_element_date}>16.08.2024</div>
-                            <div className={classes.mainForm_docs_element_price}>115 000 ₽</div>
-                        </div>
-                        <div className={classes.mainForm_docs_element_btns}>
-                            <img src="/dots.png" alt="" onClick={toggleMenu} />
-                            {isMenuOpen && (
-                                <DropdownMenu
-                                    options={[
-                                        "Создать счет",
-                                        "Создать акт",
-                                        "Создать отчет",
-                                        "Создать бриф",
-                                    ]}
-                                    onClose={closeMenu}
-                                />
-                            )}
+                            <div className={classes.mainForm_docs_element_name}>Наименование договора</div>
+                            <div className={classes.mainForm_docs_element_contr}>Контрагент</div>
+                            <div className={classes.mainForm_docs_element_date}>Дата</div>
+                            <div className={classes.mainForm_docs_element_price}>Стоимость</div>
                         </div>
                     </div>
+
+                    {docList.length > 0 && docList.map((doc, index) => (
+                        <div className={classes.mainForm_docs_element} key={index}>
+                            <div className={classes.mainForm_docs_element_info}>
+                                <div className={classes.mainForm_docs_element_name}>{doc.filename}</div>
+                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type == 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
+                                <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
+                                <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
+                            </div>
+                            <div className={classes.mainForm_docs_element_btns}>
+                                <img src="/dots.png" alt="" onClick={toggleMenu} />
+                                {isMenuOpen && (
+                                    <DropdownMenu
+                                        options={[
+                                            "Создать счет",
+                                            "Создать акт",
+                                            "Создать отчет",
+                                            "Создать бриф",
+                                        ]}
+                                        onClose={closeMenu}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal}/>
+                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal} />
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>
