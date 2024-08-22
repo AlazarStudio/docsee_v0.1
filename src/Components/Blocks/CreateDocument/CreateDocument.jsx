@@ -38,7 +38,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     };
 
     const handleContractEndDateChange = (event) => {
-        setContractEndDate(getDate(event.target.value));
+        setContractEndDate(getDate(event.target.value, 'long'));
     };
 
     const handleAmountChange = (event) => {
