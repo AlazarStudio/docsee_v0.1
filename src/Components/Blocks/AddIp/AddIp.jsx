@@ -26,7 +26,7 @@ function AddIp({ onSubmit }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         const updatedIpData = {
             ...ipData,
             orgName: ipData.fullName + ' ' + ipData.bank,
@@ -58,6 +58,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Полное наименование:</label>
                     <input
+                        required
                         type="text"
                         name="fullName"
                         value={ipData.fullName}
@@ -68,6 +69,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Сокращенное название:</label>
                     <input
+                        required
                         type="text"
                         name="shortName"
                         value={ipData.shortName}
@@ -78,6 +80,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>ФИО:</label>
                     <input
+                        required
                         type="text"
                         name="fio"
                         value={ipData.fio}
@@ -88,6 +91,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Должность:</label>
                     <input
+                        required
                         type="text"
                         name="position"
                         value={ipData.position}
@@ -98,6 +102,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Адрес:</label>
                     <input
+                        required
                         type="text"
                         name="address"
                         value={ipData.address}
@@ -108,6 +113,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>ОГРНИП:</label>
                     <input
+                        required
                         type="text"
                         name="ogrn"
                         value={ipData.ogrn}
@@ -118,6 +124,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>ИНН:</label>
                     <input
+                        required
                         type="text"
                         name="inn"
                         value={ipData.inn}
@@ -128,6 +135,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Р/сч:</label>
                     <input
+                        required
                         type="text"
                         name="rs"
                         value={ipData.rs}
@@ -138,6 +146,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>БАНК:</label>
                     <input
+                        required
                         type="text"
                         name="bank"
                         value={ipData.bank}
@@ -148,6 +157,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>БИК:</label>
                     <input
+                        required
                         type="text"
                         name="bik"
                         value={ipData.bik}
@@ -158,6 +168,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>К/сч:</label>
                     <input
+                        required
                         type="text"
                         name="ks"
                         value={ipData.ks}
@@ -168,6 +179,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>E-mail:</label>
                     <input
+                        required
                         type="text"
                         name="email"
                         value={ipData.email}
@@ -178,6 +190,7 @@ function AddIp({ onSubmit }) {
                 <div>
                     <label>Телефон:</label>
                     <input
+                        required
                         type="text"
                         name="phone"
                         value={ipData.phone}

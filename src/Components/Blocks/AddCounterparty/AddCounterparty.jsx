@@ -150,6 +150,7 @@ function AddCounterparty({ onSubmit }) {
                 <div>
                     <label>Тип контрагента</label>
                     <select
+                        required
                         className={classes.input}
                         value={counterpartyType}
                         onChange={(e) => setCounterpartyType(e.target.value)}

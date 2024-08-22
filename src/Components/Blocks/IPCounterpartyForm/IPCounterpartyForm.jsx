@@ -7,6 +7,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Полное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="fullName"
@@ -18,6 +19,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Сокращенное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="shortName"
@@ -29,6 +31,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО ИП</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorName"  // Можно оставить как "directorName", хотя в данном случае это ИП
@@ -40,6 +43,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО ИП в род. падеже</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorFullNameGen"  // Можно оставить как "directorFullNameGen"
@@ -51,6 +55,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Инициалы ИП</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="initials"
@@ -62,6 +67,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Адрес</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="address"
@@ -73,6 +79,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ИНН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="INN"
@@ -84,6 +91,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОГРНИП</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OGRNIP"
@@ -95,6 +103,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Расчётный счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="RSCH"
@@ -106,6 +115,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Корреспондентский счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KSCH"
@@ -117,6 +127,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Банк</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="bankName"
@@ -128,6 +139,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>БИК</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="BIK"
@@ -139,6 +151,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Электронная почта</label>
                 <input
+                    required
                     className={classes.input}
                     type="email"
                     name="email"
@@ -150,6 +163,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Телефон</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="phone"

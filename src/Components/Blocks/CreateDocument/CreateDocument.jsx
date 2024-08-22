@@ -96,7 +96,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             <form className={classes.modalForm} onSubmit={handleSubmit}>
                 <div>
                     <label>Тип договора:</label>
-                    <select value={contractType} onChange={handleContractTypeChange}>
+                    <select required value={contractType} onChange={handleContractTypeChange}>
                         <option value="" disabled>Выберите тип договора</option>
                         <option value="двухсторонний">Двухсторонний</option>
                         <option value="трехсторонний">Трехсторонний</option>
@@ -104,7 +104,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 </div>
                 <div>
                     <label>Шаблон договора:</label>
-                    <select value={template} onChange={(e) => setTemplate(e.target.value)}>
+                    <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
                         <option value="" disabled>Выберите шаблон</option>
                         <option value="complex">Комплексные</option>
                     </select>
@@ -113,7 +113,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Выбор ИП:</label>
 
                     <div className={classes.modalSelectButton}>
-                        <select value={ip} onChange={(e) => setIp(e.target.value)}>
+                        <select required value={ip} onChange={(e) => setIp(e.target.value)}>
                             <option value="" disabled>Выберите ИП</option>
                             {ipList.map((ipItem, index) => (
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
@@ -125,7 +125,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 <div>
                     <label>Выбор контрагента:</label>
                     <div className={classes.modalSelectButton}>
-                        <select value={contragent} onChange={(e) => setContragent(e.target.value)}>
+                        <select required value={contragent} onChange={(e) => setContragent(e.target.value)}>
                             <option value="" disabled>Выберите контрагента</option>
                             {counterpartyList.map((ipItem, index) => (
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
@@ -138,7 +138,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <div>
                         <label>Выбор получателей услуг:</label>
                         <div className={classes.modalSelectButton}>
-                            <select value={receiver} onChange={(e) => setReceiver(e.target.value)}>
+                            <select required value={receiver} onChange={(e) => setReceiver(e.target.value)}>
                                 <option value="" disabled>Выберите получателя услуг</option>
                                 {counterpartyList.map((ipItem, index) => (
                                     <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
@@ -150,35 +150,35 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 )}
                 <div>
                     <label>Номер договора:</label>
-                    <input type="text" value={contractNumber} placeholder={'018-24'} onChange={(e) => setContractNumber(e.target.value)} />
+                    <input required type="text" value={contractNumber} placeholder={'018-24'} onChange={(e) => setContractNumber(e.target.value)} />
                 </div>
                 <div>
                     <label>Дата договора цифры:</label>
-                    <input type="date" onChange={handleDateChange} />
+                    <input required type="date" onChange={handleDateChange} />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Дата договора прописью:</label>
-                    <input type="text" value={writtenDate} readOnly />
+                    <input required type="text" value={writtenDate} readOnly />
                 </div>
                 <div>
                     <label>Предмет договора (именительном падеже):</label>
-                    <input type="text" value={contractSubjectNom} placeholder={'Разработка логотипа и фирменного стиля'} onChange={(e) => setContractSubjectNom(e.target.value)} />
+                    <input required type="text" value={contractSubjectNom} placeholder={'Разработка логотипа и фирменного стиля'} onChange={(e) => setContractSubjectNom(e.target.value)} />
                 </div>
                 <div>
                     <label>Предмет договора (наименование работ в родительном падеже):</label>
-                    <input type="text" value={contractSubjectGen} placeholder={'Разработке логотипа и фирменного стиля'} onChange={(e) => setContractSubjectGen(e.target.value)} />
+                    <input required type="text" value={contractSubjectGen} placeholder={'Разработке логотипа и фирменного стиля'} onChange={(e) => setContractSubjectGen(e.target.value)} />
                 </div>
                 <div>
                     <label>Стоимость</label>
-                    <input type="text" value={amount} onChange={handleAmountChange} placeholder="100 000" />
+                    <input required type="text" value={amount} onChange={handleAmountChange} placeholder="100 000" />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Стоимость прописью:</label>
-                    <input type="text" value={writtenAmountAct} readOnly />
+                    <input required type="text" value={writtenAmountAct} readOnly />
                 </div>
                 <div>
                     <label>Дата действия договора (до):</label>
-                    <input type="date" onChange={handleContractEndDateChange} />
+                    <input required type="date" onChange={handleContractEndDateChange} />
                 </div>
 
                 <button type="submit">Создать</button>

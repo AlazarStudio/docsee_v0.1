@@ -7,6 +7,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Полное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="fullName"
@@ -18,6 +19,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Сокращенное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="shortName"
@@ -29,6 +31,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО Директора</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorName"
@@ -40,6 +43,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО Директора в род. падеже</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorFullNameGen"
@@ -51,6 +55,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Инициалы директора</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="initials"
@@ -62,6 +67,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Адрес</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="address"
@@ -73,6 +79,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ИНН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="INN"
@@ -84,6 +91,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>КПП</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KPP"
@@ -95,6 +103,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОКТМО</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKTMO"
@@ -106,6 +115,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОКАТО</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKATO"
@@ -117,6 +127,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОКПО</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKPO"
@@ -128,6 +139,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОКОПФ</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKOPF"
@@ -139,6 +151,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОГРН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OGRN"
@@ -150,6 +163,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Лицевой счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="LSCH"
@@ -161,6 +175,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Расчётный счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="RSCH"
@@ -172,6 +187,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Корреспондентский счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KSCH"
@@ -183,6 +199,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Банк</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="bankName"
@@ -194,6 +211,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>БИК</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="BIK"
@@ -205,6 +223,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОКОГУ</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKOGU"
@@ -216,6 +235,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Код ОКОПФ</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OKOPFCode"
@@ -227,6 +247,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Электронная почта</label>
                 <input
+                    required
                     className={classes.input}
                     type="email"
                     name="email"
@@ -238,6 +259,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Телефон</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="phone"

@@ -7,6 +7,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="fullName"
@@ -18,6 +19,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Действует на основании</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="basis"
@@ -29,6 +31,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Инициалы и фамилия</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="initials"
@@ -40,6 +43,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Адрес</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="address"
@@ -51,6 +55,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ИНН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="INN"
@@ -62,6 +67,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Паспорт Серия</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="passportSeries"
@@ -73,6 +79,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Паспорт Номер</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="passportNumber"
@@ -84,6 +91,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Расчётный счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="RSCH"
@@ -95,6 +103,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Корреспондентский счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KSCH"
@@ -106,6 +115,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Банк</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="bankName"
@@ -117,6 +127,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>БИК</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="BIK"
@@ -128,6 +139,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Электронная почта</label>
                 <input
+                    required
                     className={classes.input}
                     type="email"
                     name="email"
@@ -139,6 +151,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Телефон</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="phone"

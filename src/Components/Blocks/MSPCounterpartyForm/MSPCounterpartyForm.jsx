@@ -7,6 +7,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Полное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="fullName"
@@ -18,6 +19,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Сокращенное наименование</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="shortName"
@@ -29,6 +31,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО Директора</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorName"
@@ -40,6 +43,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ФИО Директора в род. падеже</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="directorFullNameGen"
@@ -51,6 +55,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Инициалы директора</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="initials"
@@ -62,6 +67,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Адрес</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="address"
@@ -73,6 +79,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ИНН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="INN"
@@ -84,6 +91,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>КПП</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KPP"
@@ -95,6 +103,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>ОГРН</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="OGRN"
@@ -106,6 +115,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Расчётный счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="RSCH"
@@ -117,6 +127,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Корреспондентский счёт</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="KSCH"
@@ -128,6 +139,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Банк</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="bankName"
@@ -139,6 +151,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>БИК</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="BIK"
@@ -150,6 +163,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Электронная почта</label>
                 <input
+                    required
                     className={classes.input}
                     type="email"
                     name="email"
@@ -161,6 +175,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Телефон</label>
                 <input
+                    required
                     className={classes.input}
                     type="text"
                     name="phone"
