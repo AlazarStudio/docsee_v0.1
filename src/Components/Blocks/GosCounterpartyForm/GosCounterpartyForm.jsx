@@ -215,7 +215,6 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Л/СЧ</label>
                 <input
-                    required
                     className={classes.input}
                     type="text"
                     name="LSCH"
@@ -228,7 +227,6 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>Р/СЧ</label>
                 <input
-                    required
                     className={classes.input}
                     type="text"
                     name="RSCH"
@@ -241,13 +239,36 @@ function GosCounterpartyForm({ formData, handleChange }) {
             <div>
                 <label>К/СЧ</label>
                 <input
-                    required
                     className={classes.input}
                     type="text"
                     name="KSCH"
                     value={formData.KSCH}
                     onChange={handleChange}
                     placeholder='30101810500000000773'
+                />
+            </div>
+
+            <div>
+                <label>Номер казначейского счета</label>
+                <input
+                    className={classes.input}
+                    type="text"
+                    name="NKAZCH"
+                    value={formData.NKAZCH}
+                    onChange={handleChange}
+                    placeholder='03226643910000007900'
+                />
+            </div>
+
+            <div>
+                <label>Единый казначейский счет</label>
+                <input
+                    className={classes.input}
+                    type="text"
+                    name="EKAZSCH"
+                    value={formData.EKAZSCH}
+                    onChange={handleChange}
+                    placeholder='40102810245370000078'
                 />
             </div>
 

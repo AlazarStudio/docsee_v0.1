@@ -31,6 +31,8 @@ function AddCounterparty({ onSubmit }) {
         LSCH: '',
         RSCH: '',
         KSCH: '',
+        NKAZCH: '',
+        EKAZSCH: '',
         bankName: '',
         BIK: '',
         OKOGU: '',

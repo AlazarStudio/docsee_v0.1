@@ -10,7 +10,7 @@ function AddIp({ onSubmit }) {
         print: '',
         post: '',
         fio: '',
-        position: '',
+        initials: '',
         address: '',
         ogrnip: '',
         inn: '',
@@ -53,7 +53,6 @@ function AddIp({ onSubmit }) {
             print: '',
             post: '',
             fio: '',
-            position: '',
             address: '',
             ogrnip: '',
             inn: '',
@@ -141,14 +140,15 @@ function AddIp({ onSubmit }) {
                     />
                 </div>
                 <div>
-                    <label>Должность:</label>
+                    <label>И.О. Фамилия</label>
                     <input
                         required
+                        className={classes.input}
                         type="text"
-                        name="position"
-                        value={ipData.position}
+                        name="initials"
+                        value={ipData.initials}
                         onChange={handleIpDataChange}
-                        placeholder="Индивидуальный предприниматель"
+                        placeholder='А.З. Уртенов'
                     />
                 </div>
                 <div>
