@@ -57,6 +57,19 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             </div>
 
             <div>
+                <label>Должность и ФИО (в род. падеже)</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="directorFullNameGen"
+                    value={formData.directorFullNameGen}
+                    onChange={handleChange}
+                    placeholder='Самозанятого Уртенова Азамата Зауровича'
+                />
+            </div>
+
+            <div>
                 <label>И.О. Фамилия</label>
                 <input
                     required
