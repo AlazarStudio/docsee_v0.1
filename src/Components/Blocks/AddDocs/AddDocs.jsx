@@ -8,7 +8,7 @@ import classes from './AddDocs.module.css';
 import { GET_DATA } from '../../../../requests.js'
 
 function AddDocs() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [menuOpenIndex, setMenuOpenIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
@@ -17,18 +17,22 @@ function AddDocs() {
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
 
+    const fetchDocuments = () => {
+        GET_DATA('documents.json', setDocList);
+    };
+
     useEffect(() => {
         GET_DATA('ipName.json', setIpList);
         GET_DATA('contragents.json', setCounterpartyList);
-        GET_DATA('documents.json', setDocList);
+        fetchDocuments();
     }, []);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+    const toggleMenu = (index) => {
+        setMenuOpenIndex(prevIndex => (prevIndex === index ? null : index));
     };
 
     const closeMenu = () => {
-        setIsMenuOpen(false);
+        setMenuOpenIndex(null);
     };
 
     const openModal = () => {
@@ -87,14 +91,15 @@ function AddDocs() {
                     {docList.length > 0 && docList.map((doc, index) => (
                         <div className={classes.mainForm_docs_element} key={index}>
                             <div className={classes.mainForm_docs_element_info}>
-                                <div className={classes.mainForm_docs_element_name}>{doc.filename}</div>
-                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type == 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
+                                <div className={classes.mainForm_docs_element_name}>Договор №{doc.data.contractNumber} {doc.data.receiver.fullName}</div>
+                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                 <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
                                 <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
                             </div>
                             <div className={classes.mainForm_docs_element_btns}>
-                                <img src="/dots.png" alt="" onClick={toggleMenu} />
-                                {isMenuOpen && (
+                                <a href={`http://localhost:3000/${doc.filePath}`}><img src="/download_doc.png" title={`Скачать ${doc.filename}`}  /></a>
+                                <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
+                                {menuOpenIndex === index && (
                                     <DropdownMenu
                                         options={[
                                             "Создать счет",
@@ -112,7 +117,7 @@ function AddDocs() {
             </div>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal} />
+                <CreateDocument closeModal={closeModal} fetchDocuments={fetchDocuments} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal} />
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>

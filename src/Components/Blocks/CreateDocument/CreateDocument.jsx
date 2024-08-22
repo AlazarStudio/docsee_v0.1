@@ -3,7 +3,7 @@ import { rubles } from 'rubles';
 import classes from './CreateDocument.module.css';
 import axios from 'axios';
 
-function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal }) {
+function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal, fetchDocuments }) {
     const [contractType, setContractType] = useState('');
     const [numberDate, setNumberDate] = useState('');
     const [writtenDate, setWrittenDate] = useState('');
@@ -104,6 +104,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             await axios.post('http://localhost:3000/generate', { formData });
             console.log("Form Data: ", formData);
             closeModal();
+
+            fetchDocuments()
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');

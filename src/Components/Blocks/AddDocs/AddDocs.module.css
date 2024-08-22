@@ -91,14 +91,14 @@
 }
 
 .mainForm_docs_element_name {
-    width: 500px;
+    width: 400px;
     display: flex;
     align-items: center;
     font-size: 14px;
 }
 
 .mainForm_docs_element_contr {
-    width: 500px;
+    width: 300px;
     display: flex;
     align-items: center;
     font-size: 14px;
