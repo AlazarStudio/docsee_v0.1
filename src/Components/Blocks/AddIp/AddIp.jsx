@@ -6,10 +6,13 @@ function AddIp({ onSubmit }) {
     const [ipData, setIpData] = useState({
         fullName: '',
         shortName: '',
+        basis: '',
+        print: '',
+        post: '',
         fio: '',
         position: '',
         address: '',
-        ogrn: '',
+        ogrnip: '',
         inn: '',
         rs: '',
         bank: '',
@@ -46,10 +49,13 @@ function AddIp({ onSubmit }) {
         setIpData({
             fullName: '',
             shortName: '',
+            basis: '',
+            print: '',
+            post: '',
             fio: '',
             position: '',
             address: '',
-            ogrn: '',
+            ogrnip: '',
             inn: '',
             rs: '',
             bank: '',
@@ -85,6 +91,42 @@ function AddIp({ onSubmit }) {
                         value={ipData.shortName}
                         onChange={handleIpDataChange}
                         placeholder="ИП Уртенов А.З."
+                    />
+                </div>
+                <div>
+                    <label>Действует на основании</label>
+                    <input
+                        required
+                        className={classes.input}
+                        type="text"
+                        name="basis"
+                        value={ipData.basis}
+                        onChange={handleIpDataChange}
+                        placeholder='ОРГНИП'
+                    />
+                </div>
+                <div>
+                    <label>Печать</label>
+                    <input
+                        required
+                        className={classes.input}
+                        type="text"
+                        name="print"
+                        value={ipData.print}
+                        onChange={handleIpDataChange}
+                        placeholder='Да или нет'
+                    />
+                </div>
+                <div>
+                    <label>Должность</label>
+                    <input
+                        required
+                        className={classes.input}
+                        type="text"
+                        name="post"
+                        value={ipData.post}
+                        onChange={handleIpDataChange}
+                        placeholder='Индивидуальный предприниматель'
                     />
                 </div>
                 <div>
@@ -126,7 +168,7 @@ function AddIp({ onSubmit }) {
                         required
                         type="text"
                         name="ogrn"
-                        value={ipData.ogrn}
+                        value={ipData.ogrnip}
                         onChange={handleIpDataChange}
                         placeholder="323909000029290"
                     />
