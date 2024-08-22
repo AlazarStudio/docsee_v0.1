@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { rubles } from 'rubles';
 import classes from './CreateDocument.module.css';
 
-function CreateDocument({ closeModal, ipList, counterpartyList }) {
+function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal }) {
     const [contractType, setContractType] = useState('');
     const [numberDate, setNumberDate] = useState('');
     const [writtenDate, setWrittenDate] = useState('');
     const [amount, setAmount] = useState('');
-    const [writtenAmount, setWrittenAmount] = useState('');
+    const [writtenAmountAct, setWrittenAmountAct] = useState('');
+    const [writtenAmountDogovor, setWrittenAmountDogovor] = useState('');
     const [template, setTemplate] = useState('');
     const [ip, setIp] = useState('');
     const [contragent, setContragent] = useState('');
@@ -42,25 +43,46 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
         let value = event.target.value;
         let sum = value.replace(' ', '');
 
+        let sumForDogovor = sum.length > 0 && rubles(sum).charAt(0).toUpperCase() + rubles(sum).slice(1);
+
+        const regex = /(\d{2} копеек?)$/;
+        const match = sum.length > 0 && sumForDogovor.match(regex);
+    
+        if (match && sum.length > 0) {
+            const kopiekiPart = match[0];
+            const rublesPart = sumForDogovor.replace(regex, '').trim(); 
+            const finalSumForDogovor = `( ${rublesPart} ) ${kopiekiPart}`;
+            
+            setWrittenAmountDogovor(finalSumForDogovor);
+        } else {
+            setWrittenAmountDogovor(sumForDogovor);
+        }
+    
         setAmount(sum.toLocaleString('ru-RU'));
         setStoimostNumber(String(Number(sum.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
-        setWrittenAmount(rubles(sum));
+        setWrittenAmountAct(rubles(sum));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const selectedIp = ipList.find(ipItem => ipItem.orgName === ip);
+        const selectedContragent = counterpartyList.find(counterparty => counterparty.orgName === contragent);
+        const selectedReceiver = counterpartyList.find(counterparty => counterparty.orgName === receiver);
+
         const formData = {
             contractType,
             template,
-            ip,
-            contragent,
-            receiver: contractType === 'трехсторонний' ? receiver : null,
+            ip: selectedIp ? selectedIp : null,
+            contragent: selectedContragent ? selectedContragent : null,
+            receiver: contractType === 'трехсторонний' ? selectedReceiver : null,
             contractNumber,
             numberDate,
             writtenDate,
             contractSubjectNom,
             contractSubjectGen,
-            writtenAmount,
+            writtenAmountAct: writtenAmountAct.charAt(0).toUpperCase() + writtenAmountAct.slice(1),
+            writtenAmountDogovor,
             stoimostNumber,
             contractEndDate,
         };
@@ -89,12 +111,16 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
                 </div>
                 <div>
                     <label>Выбор ИП:</label>
-                    <select value={ip} onChange={(e) => setIp(e.target.value)}>
-                        <option value="" disabled>Выберите ИП</option>
-                        {ipList.map((ipItem, index) => (
-                            <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
-                        ))}
-                    </select>
+
+                    <div className={classes.modalSelectButton}>
+                        <select value={ip} onChange={(e) => setIp(e.target.value)}>
+                            <option value="" disabled>Выберите ИП</option>
+                            {ipList.map((ipItem, index) => (
+                                <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
+                            ))}
+                        </select>
+                        <button type="button" className={classes.addButton} onClick={openIpModal}>+</button>
+                    </div>
                 </div>
                 <div>
                     <label>Выбор контрагента:</label>
@@ -105,7 +131,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                             ))}
                         </select>
-                        <button type="button" className={classes.addButton}>+</button>
+                        <button type="button" className={classes.addButton} onClick={openCounterpartyModal}>+</button>
                     </div>
                 </div>
                 {contractType === 'трехсторонний' && (
@@ -118,7 +144,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
                                     <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                                 ))}
                             </select>
-                            <button type="button" className={classes.addButton}>+</button>
+                            <button type="button" className={classes.addButton} onClick={openCounterpartyModal}>+</button>
                         </div>
                     </div>
                 )}
@@ -148,7 +174,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Стоимость прописью:</label>
-                    <input type="text" value={writtenAmount} readOnly />
+                    <input type="text" value={writtenAmountAct} readOnly />
                 </div>
                 <div>
                     <label>Дата действия договора (до):</label>
@@ -156,7 +182,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList }) {
                 </div>
 
                 <button type="submit">Создать</button>
-            </form>
+            </form >
         </>
     );
 }

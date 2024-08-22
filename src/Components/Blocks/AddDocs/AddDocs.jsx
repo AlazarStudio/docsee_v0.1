@@ -93,7 +93,7 @@ function AddDocs() {
             </div>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList}/>
+                <CreateDocument closeModal={closeModal} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal}/>
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>
