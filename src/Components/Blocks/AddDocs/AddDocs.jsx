@@ -97,7 +97,9 @@ function AddDocs() {
                                 <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
                             </div>
                             <div className={classes.mainForm_docs_element_btns}>
-                                <a href={`http://localhost:3000/${doc.filePath}`}><img src="/download_doc.png" title={`Скачать ${doc.filename}`}  /></a>
+                                {/* <a href={`http://localhost:3000/${doc.filePath}`}></a> */}
+                                <img src="/download_doc.png" title={`Скачать ${doc.filename}`}  />
+                                
                                 <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
                                 {menuOpenIndex === index && (
                                     <DropdownMenu

@@ -120,7 +120,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Тип договора:</label>
                     <select required value={contractType} onChange={handleContractTypeChange}>
                         <option value="" disabled>Выберите тип договора</option>
-                        <option value="2">Двухсторонний</option>
+                        {/* <option value="2">Двухсторонний</option> */}
                         <option value="3">Трехсторонний</option>
                     </select>
                 </div>
@@ -128,7 +128,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Шаблон договора:</label>
                     <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
                         <option value="" disabled>Выберите шаблон</option>
-                        <option value="complex">Комплексные</option>
+                        <option value="Template_3_side_document">Шаблон договора трехсторонний</option>
                     </select>
                 </div>
                 <div>
