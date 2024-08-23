@@ -4,26 +4,36 @@ import Modal from '../Modal/Modal';
 import CreateDocument from '../CreateDocument/CreateDocument';
 import AddIp from '../AddIp/AddIp';
 import AddCounterparty from '../AddCounterparty/AddCounterparty';
-import CreateInvoiceForm from '../CreateInvoiceForm/CreateInvoiceForm';  // Импорт формы для счета
+import CreateInvoiceForm from '../CreateInvoiceForm/CreateInvoiceForm';
 import classes from './AddDocs.module.css';
-import { GET_DATA } from '../../../../requests.js'
+import { GET_DATA } from '../../../../requests.js';
 import axios from 'axios';
 
 function AddDocs() {
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
-    const [downloadMenuOpenIndex, setDownloadMenuOpenIndex] = useState(null); // Состояние для выпадающего меню скачивания
+    const [downloadMenuOpenIndex, setDownloadMenuOpenIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
-    const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);  // Состояние для модалки счета
+    const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
-    const [currentContract, setCurrentContract] = useState(null);  // Состояние для текущего выбранного договора
+    const [currentContract, setCurrentContract] = useState(null);
+    const [filesToDownload, setFilesToDownload] = useState([]); 
 
     const fetchDocuments = () => {
         GET_DATA('documents.json', setDocList);
+    };
+
+    const sortDocumentsByDate = (documents) => {
+        return documents.sort((a, b) => {
+            const dateA = new Date(a.data.numberDate);
+            const dateB = new Date(b.data.numberDate);
+            return dateB - dateA;  // Сортировка по убыванию
+        });
     };
 
     useEffect(() => {
@@ -73,13 +83,13 @@ function AddDocs() {
     };
 
     const openInvoiceModal = (contract) => {
-        setCurrentContract(contract);  // Сохраняем выбранный договор
+        setCurrentContract(contract);
         setIsInvoiceModalOpen(true);
     };
 
     const closeInvoiceModal = () => {
         setIsInvoiceModalOpen(false);
-        setCurrentContract(null);  // Очищаем текущий выбранный договор
+        setCurrentContract(null);
     };
 
     const handleIpSubmit = (ipData) => {
@@ -107,11 +117,21 @@ function AddDocs() {
         }
     };
 
-    const handleDownload = (url) => {
-        const link = document.createElement('a');
-        link.href = `http://localhost:3000/docs/${url}`;
-        link.download = '';  // Укажите имя файла, если оно должно быть отличным от стандартного
-        link.click();
+    const handleDownload = (option) => {
+        if (option.type === 'single') {
+            const link = document.createElement('a');
+            link.href = `http://localhost:3000/docs/${option.url}`;
+            link.download = '';
+            link.click();
+        } else if (option.type === 'multiple') {
+            setFilesToDownload(option.files);
+            setIsDownloadModalOpen(true);
+        }
+    };
+
+    const closeDownloadModal = () => {
+        setIsDownloadModalOpen(false);
+        setFilesToDownload([]);
     };
 
     return (
@@ -133,24 +153,39 @@ function AddDocs() {
                         </div>
                     </div>
 
-                    {docList.length > 0 && docList.map((doc, index) => {
+                    {docList.length > 0 && sortDocumentsByDate(docList).map((doc, index) => {
                         const downloadOptions = [];
 
                         if (doc.filename) {
-                            
-                            downloadOptions.push({ label: "Скачать договор", url: doc.filename });
+                            downloadOptions.push({ label: "Скачать договор", type: 'single', url: doc.filename });
                         }
-                        if (doc.expenses) {
-                            downloadOptions.push({ label: "Скачать счет", url: doc.expenses[0].filename });
+                        if (doc.expenses && doc.expenses.length > 0) {
+                            if (doc.expenses.length === 1) {
+                                downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
+                            } else {
+                                downloadOptions.push({ label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({ label: `Счет ${expense.date}`, url: expense.filename })) });
+                            }
                         }
-                        if (doc.act) {
-                            downloadOptions.push({ label: "Скачать акт", url: doc.act[0].filename });
+                        if (doc.act && doc.act.length > 0) {
+                            if (doc.act.length === 1) {
+                                downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.act[0].filename });
+                            } else {
+                                downloadOptions.push({ label: "Скачать акт", type: 'multiple', files: doc.act.map(act => ({ label: `Акт ${act.date}`, url: act.filename })) });
+                            }
                         }
-                        if (doc.reports) {
-                            downloadOptions.push({ label: "Скачать отчет", url: doc.reports[0].filename });
+                        if (doc.reports && doc.reports.length > 0) {
+                            if (doc.reports.length === 1) {
+                                downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
+                            } else {
+                                downloadOptions.push({ label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({ label: `Отчет ${report.date}`, url: report.filename })) });
+                            }
                         }
-                        if (doc.brif) {
-                            downloadOptions.push({ label: "Скачать бриф", url: doc.brif[0].filename });
+                        if (doc.brif && doc.brif.length > 0) {
+                            if (doc.brif.length === 1) {
+                                downloadOptions.push({ label: "Скачать бриф", type: 'single', url: doc.brif[0].filename });
+                            } else {
+                                downloadOptions.push({ label: "Скачать бриф", type: 'multiple', files: doc.brif.map(brif => ({ label: `Бриф ${brif.date}`, url: brif.filename })) });
+                            }
                         }
 
                         return (
@@ -169,7 +204,7 @@ function AddDocs() {
                                             onClose={closeDownloadMenu}
                                             onSelect={(selectedOption) => {
                                                 const selectedDownloadOption = downloadOptions.find(option => option.label === selectedOption);
-                                                handleDownload(selectedDownloadOption.url);
+                                                handleDownload(selectedDownloadOption);
                                                 closeDownloadMenu();
                                             }}
                                         />
@@ -215,6 +250,24 @@ function AddDocs() {
                 <AddCounterparty onSubmit={handleCounterpartySubmit} />
             </Modal>
 
+            <Modal isOpen={isDownloadModalOpen} onClose={closeDownloadModal}>
+                <div className={classes.downloadModal}>
+                    <h3>Выберите файл для скачивания:</h3>
+                    <ul>
+                        {filesToDownload.map((file, index) => (
+                            <li key={index} onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = `http://localhost:3000/docs/${file.url}`;
+                                link.download = '';
+                                link.click();
+                                closeDownloadModal();
+                            }}>
+                                {file.url}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </Modal>
         </div>
     );
 }

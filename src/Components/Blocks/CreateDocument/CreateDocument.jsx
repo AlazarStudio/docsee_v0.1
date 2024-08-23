@@ -120,7 +120,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Тип договора:</label>
                     <select required value={contractType} onChange={handleContractTypeChange}>
                         <option value="" disabled>Выберите тип договора</option>
-                        {/* <option value="2">Двухсторонний</option> */}
+                        <option value="2">Двухсторонний</option>
                         <option value="3">Трехсторонний</option>
                     </select>
                 </div>

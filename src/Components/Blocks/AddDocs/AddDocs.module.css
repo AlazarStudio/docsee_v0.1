@@ -117,3 +117,31 @@
     align-items: center;
     font-size: 14px;
 }
+
+.downloadModal{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.downloadModal ul{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.downloadModal ul li{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.downloadModal ul li:nth-child(2n-1){
+    background-color: #f3f3f3;
+}
+
+.downloadModal ul li:hover{
+    background-color: #835de1;
+    color: #fff;
+}
