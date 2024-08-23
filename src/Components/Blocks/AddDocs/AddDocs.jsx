@@ -4,18 +4,22 @@ import Modal from '../Modal/Modal';
 import CreateDocument from '../CreateDocument/CreateDocument';
 import AddIp from '../AddIp/AddIp';
 import AddCounterparty from '../AddCounterparty/AddCounterparty';
+import CreateInvoiceForm from '../CreateInvoiceForm/CreateInvoiceForm';  // Импорт формы для счета
 import classes from './AddDocs.module.css';
 import { GET_DATA } from '../../../../requests.js'
+import axios from 'axios';
 
 function AddDocs() {
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
+    const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);  // Состояние для модалки счета
 
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
+    const [currentContract, setCurrentContract] = useState(null);  // Состояние для текущего выбранного договора
 
     const fetchDocuments = () => {
         GET_DATA('documents.json', setDocList);
@@ -59,6 +63,16 @@ function AddDocs() {
         setIsCounterpartyModalOpen(false);
     };
 
+    const openInvoiceModal = (contract) => {
+        setCurrentContract(contract);  // Сохраняем выбранный договор
+        setIsInvoiceModalOpen(true);
+    };
+
+    const closeInvoiceModal = () => {
+        setIsInvoiceModalOpen(false);
+        setCurrentContract(null);  // Очищаем текущий выбранный договор
+    };
+
     const handleIpSubmit = (ipData) => {
         setIpList(prevList => [...prevList, ipData]);
         closeIpModal();
@@ -67,6 +81,22 @@ function AddDocs() {
     const handleCounterpartySubmit = (counterpartyData) => {
         setCounterpartyList(prevList => [...prevList, counterpartyData]);
         closeCounterpartyModal();
+    };
+
+    const handleInvoiceSubmit = async (creationDate) => {
+        const formData = {
+            creationDate,
+            contractName: currentContract.filename
+        };
+        try {
+            await axios.post('http://localhost:3000/generate-expenses', { formData });
+            // console.log("Form Data: ", formData);
+
+            closeInvoiceModal();
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
     };
 
     return (
@@ -97,9 +127,7 @@ function AddDocs() {
                                 <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
                             </div>
                             <div className={classes.mainForm_docs_element_btns}>
-                                {/* <a href={`http://localhost:3000/${doc.filePath}`}></a> */}
-                                <img src="/download_doc.png" title={`Скачать ${doc.filename}`}  />
-                                
+                                <img src="/download_doc.png" title={`Скачать ${doc.filename}`} />
                                 <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
                                 {menuOpenIndex === index && (
                                     <DropdownMenu
@@ -110,6 +138,12 @@ function AddDocs() {
                                             "Создать бриф",
                                         ]}
                                         onClose={closeMenu}
+                                        onSelect={(option) => {
+                                            closeMenu();
+                                            if (option === "Создать счет") {
+                                                openInvoiceModal(doc);
+                                            }
+                                        }}
                                     />
                                 )}
                             </div>
@@ -122,6 +156,12 @@ function AddDocs() {
                 <CreateDocument closeModal={closeModal} fetchDocuments={fetchDocuments} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal} />
             </Modal>
 
+            <Modal isOpen={isInvoiceModalOpen} onClose={closeInvoiceModal}>
+                <CreateInvoiceForm onSubmit={handleInvoiceSubmit} onClose={closeInvoiceModal} />
+            </Modal>
+
+
+
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>
                 <AddIp onSubmit={handleIpSubmit} />
             </Modal>
@@ -129,6 +169,7 @@ function AddDocs() {
             <Modal isOpen={isCounterpartyModalOpen} onClose={closeCounterpartyModal}>
                 <AddCounterparty onSubmit={handleCounterpartySubmit} />
             </Modal>
+
         </div>
     );
 }

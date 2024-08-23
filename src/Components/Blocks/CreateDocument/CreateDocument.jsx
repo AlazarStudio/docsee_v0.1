@@ -101,7 +101,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
 
         // console.log("Form Data: ", formData);
         try {
-            await axios.post('http://localhost:3000/generate', { formData });
+            await axios.post('http://localhost:3000/generate-contract', { formData });
             console.log("Form Data: ", formData);
             closeModal();
 

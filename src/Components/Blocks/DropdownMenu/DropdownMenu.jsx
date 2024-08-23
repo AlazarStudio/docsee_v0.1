@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classes from './DropdownMenu.module.css';
 
-function DropdownMenu({ options, onClose }) {
+function DropdownMenu({ options, onClose, onSelect }) {  // Добавлен onSelect
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -17,10 +17,19 @@ function DropdownMenu({ options, onClose }) {
         };
     }, [onClose]);
 
+    const handleOptionClick = (option) => {
+        onSelect(option);  // Передаем выбранный элемент родительскому компоненту
+        onClose();         // Закрываем меню после выбора
+    };
+
     return (
         <div ref={menuRef} className={classes.dropdownMenu}>
             {options.map((option, index) => (
-                <div key={index} className={classes.dropdownMenu_item}>
+                <div 
+                    key={index} 
+                    className={classes.dropdownMenu_item}
+                    onClick={() => handleOptionClick(option)}  // Обработчик клика
+                >
                     {option}
                 </div>
             ))}
