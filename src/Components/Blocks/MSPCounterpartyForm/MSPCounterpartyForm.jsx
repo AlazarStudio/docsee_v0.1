@@ -39,7 +39,7 @@ function MSPCounterpartyForm({ formData, handleChange }) {
                     name="orgNameGen"
                     value={formData.orgNameGen}
                     onChange={handleChange}
-                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                    placeholder='Общества с ограниченной ответственностью «Эврика»'
                 />
             </div>
             

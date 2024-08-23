@@ -8,6 +8,7 @@ import CreateInvoiceForm from '../CreateInvoiceForm/CreateInvoiceForm';
 import classes from './AddDocs.module.css';
 import { GET_DATA } from '../../../../requests.js';
 import axios from 'axios';
+import CreateActForm from "../CreateActForm/CreateActForm.jsx";
 
 function AddDocs() {
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
@@ -22,7 +23,7 @@ function AddDocs() {
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
     const [currentContract, setCurrentContract] = useState(null);
-    const [filesToDownload, setFilesToDownload] = useState([]); 
+    const [filesToDownload, setFilesToDownload] = useState([]);
 
     const fetchDocuments = () => {
         GET_DATA('documents.json', setDocList);
@@ -117,6 +118,46 @@ function AddDocs() {
         }
     };
 
+    const [isActModalOpen, setIsActModalOpen] = useState(false);
+
+    const openActModal = (contract) => {
+        setCurrentContract(contract);
+        setIsActModalOpen(true);
+    };
+
+    const closeActModal = () => {
+        setIsActModalOpen(false);
+        setCurrentContract(null);
+    };
+
+    const handleActSubmit = async (creationDate) => {
+        const formData = {
+            creationDate,
+            contractName: currentContract.filename
+        };
+        try {
+            await axios.post('http://localhost:3000/generate-acts', { formData });
+            closeActModal();
+            fetchDocuments();
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
+    };
+
+    const handleReportSubmit = async (contract) => {
+        const formData = {
+            contractName: contract.filename
+        };
+        try {
+            await axios.post('http://localhost:3000/generate-report', { formData });
+            fetchDocuments();
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
+    };  
+
     const handleDownload = (option) => {
         if (option.type === 'single') {
             const link = document.createElement('a');
@@ -166,11 +207,11 @@ function AddDocs() {
                                 downloadOptions.push({ label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({ label: `Счет ${expense.date}`, url: expense.filename })) });
                             }
                         }
-                        if (doc.act && doc.act.length > 0) {
-                            if (doc.act.length === 1) {
-                                downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.act[0].filename });
+                        if (doc.acts && doc.acts.length > 0) {
+                            if (doc.acts.length === 1) {
+                                downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
                             } else {
-                                downloadOptions.push({ label: "Скачать акт", type: 'multiple', files: doc.act.map(act => ({ label: `Акт ${act.date}`, url: act.filename })) });
+                                downloadOptions.push({ label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({ label: `Акт ${act.date}`, url: act.filename })) });
                             }
                         }
                         if (doc.reports && doc.reports.length > 0) {
@@ -223,6 +264,10 @@ function AddDocs() {
                                                 closeMenu();
                                                 if (option === "Создать счет") {
                                                     openInvoiceModal(doc);
+                                                } else if (option === "Создать акт") {
+                                                    openActModal(doc);
+                                                } else if (option === "Создать отчет") {
+                                                    handleReportSubmit(doc);
                                                 }
                                             }}
                                         />
@@ -240,6 +285,10 @@ function AddDocs() {
 
             <Modal isOpen={isInvoiceModalOpen} onClose={closeInvoiceModal}>
                 <CreateInvoiceForm onSubmit={handleInvoiceSubmit} onClose={closeInvoiceModal} />
+            </Modal>
+
+            <Modal isOpen={isActModalOpen} onClose={closeActModal}>
+                <CreateActForm onSubmit={handleActSubmit} onClose={closeActModal} />
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>

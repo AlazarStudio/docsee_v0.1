@@ -13,7 +13,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    placeholder='Автономная некоммерческая организация «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                    placeholder='Автономная некоммерческая организация «Центр «Мой бизнес» Карачаево-Черкесской Республики'
                 />
             </div>
 
@@ -39,7 +39,7 @@ function GosCounterpartyForm({ formData, handleChange }) {
                     name="orgNameGen"
                     value={formData.orgNameGen}
                     onChange={handleChange}
-                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                    placeholder='Автономной некоммерческой организации «Центр «Мой бизнес» Карачаево-Черкесской Республики'
                 />
             </div>
 

@@ -31,7 +31,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
             </div>
             
             <div>
-                <label>Наименование организации (в родительном падеже)</label>
+                <label>Наименование организации</label>
                 <input
                     required
                     className={classes.input}
@@ -39,7 +39,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     name="orgNameFen"
                     value={formData.orgNameGen}
                     onChange={handleChange}
-                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                    placeholder='Уртенов Азамат Заурович'
                 />
             </div>
 
@@ -82,6 +82,19 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                 />
             </div>
 
+            <div>
+                <label>Должность и Полное наименование организации (в род. падеже)</label>
+                <input
+                    required
+                    className={classes.input}
+                    type="text"
+                    name="directorFullOrgNameGen"
+                    value={formData.directorFullOrgNameGen}
+                    onChange={handleChange}
+                    placeholder='Самозанятый Уртенов Азамат Заурович'
+                />
+            </div>
+            
             <div>
                 <label>И.О. Фамилия</label>
                 <input

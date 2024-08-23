@@ -31,7 +31,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
             </div>
 
             <div>
-                <label>Наименование организации (в родительном падеже)</label>
+                <label>Наименование организации</label>
                 <input
                     required
                     className={classes.input}
@@ -39,7 +39,7 @@ function IPCounterpartyForm({ formData, handleChange }) {
                     name="orgNameGen"
                     value={formData.orgNameGen}
                     onChange={handleChange}
-                    placeholder='АНО «Центр «Мой бизнес» Карачаево-Черкесской Республики»'
+                    placeholder='Уртенов Азамат Заурович'
                 />
             </div>
             
