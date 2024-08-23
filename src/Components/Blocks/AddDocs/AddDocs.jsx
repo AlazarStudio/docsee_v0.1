@@ -11,6 +11,7 @@ import axios from 'axios';
 
 function AddDocs() {
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
+    const [downloadMenuOpenIndex, setDownloadMenuOpenIndex] = useState(null); // Состояние для выпадающего меню скачивания
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
@@ -37,6 +38,14 @@ function AddDocs() {
 
     const closeMenu = () => {
         setMenuOpenIndex(null);
+    };
+
+    const toggleDownloadMenu = (index) => {
+        setDownloadMenuOpenIndex(prevIndex => (prevIndex === index ? null : index));
+    };
+
+    const closeDownloadMenu = () => {
+        setDownloadMenuOpenIndex(null);
     };
 
     const openModal = () => {
@@ -90,13 +99,19 @@ function AddDocs() {
         };
         try {
             await axios.post('http://localhost:3000/generate-expenses', { formData });
-            // console.log("Form Data: ", formData);
-
             closeInvoiceModal();
+            fetchDocuments();
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
+    };
+
+    const handleDownload = (url) => {
+        const link = document.createElement('a');
+        link.href = `http://localhost:3000/docs/${url}`;
+        link.download = '';  // Укажите имя файла, если оно должно быть отличным от стандартного
+        link.click();
     };
 
     return (
@@ -118,37 +133,69 @@ function AddDocs() {
                         </div>
                     </div>
 
-                    {docList.length > 0 && docList.map((doc, index) => (
-                        <div className={classes.mainForm_docs_element} key={index}>
-                            <div className={classes.mainForm_docs_element_info}>
-                                <div className={classes.mainForm_docs_element_name}>Договор №{doc.data.contractNumber} {doc.data.receiver.fullName}</div>
-                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
-                                <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
-                                <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
+                    {docList.length > 0 && docList.map((doc, index) => {
+                        const downloadOptions = [];
+
+                        if (doc.filename) {
+                            
+                            downloadOptions.push({ label: "Скачать договор", url: doc.filename });
+                        }
+                        if (doc.expenses) {
+                            downloadOptions.push({ label: "Скачать счет", url: doc.expenses[0].filename });
+                        }
+                        if (doc.act) {
+                            downloadOptions.push({ label: "Скачать акт", url: doc.act[0].filename });
+                        }
+                        if (doc.reports) {
+                            downloadOptions.push({ label: "Скачать отчет", url: doc.reports[0].filename });
+                        }
+                        if (doc.brif) {
+                            downloadOptions.push({ label: "Скачать бриф", url: doc.brif[0].filename });
+                        }
+
+                        return (
+                            <div className={classes.mainForm_docs_element} key={index}>
+                                <div className={classes.mainForm_docs_element_info}>
+                                    <div className={classes.mainForm_docs_element_name}>Договор №{doc.data.contractNumber} {doc.data.receiver.fullName}</div>
+                                    <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
+                                    <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
+                                    <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
+                                </div>
+                                <div className={classes.mainForm_docs_element_btns}>
+                                    <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(index)} />
+                                    {downloadMenuOpenIndex === index && (
+                                        <DropdownMenu
+                                            options={downloadOptions.map(option => option.label)}
+                                            onClose={closeDownloadMenu}
+                                            onSelect={(selectedOption) => {
+                                                const selectedDownloadOption = downloadOptions.find(option => option.label === selectedOption);
+                                                handleDownload(selectedDownloadOption.url);
+                                                closeDownloadMenu();
+                                            }}
+                                        />
+                                    )}
+                                    <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
+                                    {menuOpenIndex === index && (
+                                        <DropdownMenu
+                                            options={[
+                                                "Создать счет",
+                                                "Создать акт",
+                                                "Создать отчет",
+                                                "Создать бриф",
+                                            ]}
+                                            onClose={closeMenu}
+                                            onSelect={(option) => {
+                                                closeMenu();
+                                                if (option === "Создать счет") {
+                                                    openInvoiceModal(doc);
+                                                }
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             </div>
-                            <div className={classes.mainForm_docs_element_btns}>
-                                <img src="/download_doc.png" title={`Скачать ${doc.filename}`} />
-                                <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
-                                {menuOpenIndex === index && (
-                                    <DropdownMenu
-                                        options={[
-                                            "Создать счет",
-                                            "Создать акт",
-                                            "Создать отчет",
-                                            "Создать бриф",
-                                        ]}
-                                        onClose={closeMenu}
-                                        onSelect={(option) => {
-                                            closeMenu();
-                                            if (option === "Создать счет") {
-                                                openInvoiceModal(doc);
-                                            }
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 
@@ -159,8 +206,6 @@ function AddDocs() {
             <Modal isOpen={isInvoiceModalOpen} onClose={closeInvoiceModal}>
                 <CreateInvoiceForm onSubmit={handleInvoiceSubmit} onClose={closeInvoiceModal} />
             </Modal>
-
-
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>
                 <AddIp onSubmit={handleIpSubmit} />
