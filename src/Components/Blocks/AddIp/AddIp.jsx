@@ -40,7 +40,7 @@ function AddIp({ onSubmit }) {
         onSubmit(updatedIpData);
 
         try {
-            await axios.post('http://localhost:3000/add-ip', { formData: updatedIpData });
+            await axios.post('http://31.128.44.173:80/add-ip', { formData: updatedIpData });
             console.log("Form Data: ", updatedIpData);
         } catch (error) {
             console.error("Ошибка запроса", error);

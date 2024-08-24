@@ -161,7 +161,7 @@ function AddCounterparty({ onSubmit }) {
         onSubmit(updatedData);
 
         try {
-            await axios.post('http://localhost:3000/add-contragent', { formData: updatedData });
+            await axios.post('http://31.128.44.173:80/add-contragent', { formData: updatedData });
             console.log("Form Data: ", updatedData);
         } catch (error) {
             console.error("Ошибка запроса", error);

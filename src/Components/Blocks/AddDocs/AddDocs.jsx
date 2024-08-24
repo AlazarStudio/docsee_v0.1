@@ -112,7 +112,7 @@ function AddDocs() {
             contractName: currentContract.filename
         };
         try {
-            await axios.post('http://localhost:3000/generate-expenses', { formData });
+            await axios.post('http://31.128.44.173:80/generate-expenses', { formData });
             closeInvoiceModal();
             fetchDocuments();
             alert(`Счет для документа ${formData.contractName} успешно создан`);
@@ -152,7 +152,7 @@ function AddDocs() {
         };
         console.log(formData);
         try {
-            await axios.post('http://localhost:3000/generate-acts', { formData });
+            await axios.post('http://31.128.44.173:80/generate-acts', { formData });
             closeActModal();
             fetchDocuments();
             alert(`Акт для документа ${formData.contractName} успешно создан`);
@@ -170,7 +170,7 @@ function AddDocs() {
             contractName: currentContract.filename
         };
         try {
-            await axios.post('http://localhost:3000/generate-report', { formData });
+            await axios.post('http://31.128.44.173:80/generate-report', { formData });
             closeReportModal();
             fetchDocuments();
             alert(`Отчет для документа ${formData.contractName} успешно создан`);
@@ -184,7 +184,7 @@ function AddDocs() {
     const handleDownload = (option) => {
         if (option.type === 'single') {
             const link = document.createElement('a');
-            link.href = `http://localhost:3000/docs/${option.url}`;
+            link.href = `http://31.128.44.173:80/docs/${option.url}`;
             link.download = '';
             link.click();
         } else if (option.type === 'multiple') {
@@ -345,7 +345,7 @@ function AddDocs() {
                         {filesToDownload.map((file, index) => (
                             <li key={index} onClick={() => {
                                 const link = document.createElement('a');
-                                link.href = `http://localhost:3000/docs/${file.url}`;
+                                link.href = `http://31.128.44.173:80/docs/${file.url}`;
                                 link.download = '';
                                 link.click();
                                 closeDownloadModal();
