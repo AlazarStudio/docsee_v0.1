@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function AddIp({ onSubmit }) {
     const [ipData, setIpData] = useState({
+        lastDocNumber: '',
         fullName: '',
         shortName: '',
         basis: '',

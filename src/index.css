@@ -28,6 +28,8 @@ main {
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
+    background-color: #825de10c;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {

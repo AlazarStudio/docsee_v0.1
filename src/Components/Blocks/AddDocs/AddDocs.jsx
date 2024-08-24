@@ -27,6 +27,8 @@ function AddDocs() {
 
     const fetchDocuments = () => {
         GET_DATA('documents.json', setDocList);
+        GET_DATA('ipName.json', setIpList);
+        GET_DATA('contragents.json', setCounterpartyList);
     };
 
     const sortDocumentsByDate = (documents) => {
@@ -38,8 +40,6 @@ function AddDocs() {
     };
 
     useEffect(() => {
-        GET_DATA('ipName.json', setIpList);
-        GET_DATA('contragents.json', setCounterpartyList);
         fetchDocuments();
     }, []);
 
@@ -156,7 +156,7 @@ function AddDocs() {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
-    };  
+    };
 
     const handleDownload = (option) => {
         if (option.type === 'single') {
@@ -184,16 +184,19 @@ function AddDocs() {
                     <div className={classes.mainForm_buttons_btn} onClick={openCounterpartyModal}>Добавить контрагента</div>
                 </div>
 
-                <div className={classes.mainForm_docs}>
+                <div className={classes.mainForm_docs_title}>
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
+                            <div className={classes.mainForm_docs_element_num}>Номер</div>
                             <div className={classes.mainForm_docs_element_name}>Наименование договора</div>
                             <div className={classes.mainForm_docs_element_contr}>Контрагент</div>
                             <div className={classes.mainForm_docs_element_date}>Дата</div>
                             <div className={classes.mainForm_docs_element_price}>Стоимость</div>
                         </div>
                     </div>
+                </div>
 
+                <div className={classes.mainForm_docs}>
                     {docList.length > 0 && sortDocumentsByDate(docList).map((doc, index) => {
                         const downloadOptions = [];
 
@@ -232,6 +235,7 @@ function AddDocs() {
                         return (
                             <div className={classes.mainForm_docs_element} key={index}>
                                 <div className={classes.mainForm_docs_element_info}>
+                                    <div className={classes.mainForm_docs_element_num}>{index + 1}</div>
                                     <div className={classes.mainForm_docs_element_name}>Договор №{doc.data.contractNumber} {doc.data.receiver.fullName}</div>
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                     <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>

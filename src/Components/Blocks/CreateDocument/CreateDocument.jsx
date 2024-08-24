@@ -42,6 +42,33 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         setContractEndDate(getDate(event.target.value, 'long'));
     };
 
+    const handleIpChange = (event) => {
+        const selectedIpName = event.target.value;
+        setIp(selectedIpName);
+
+        const selectedIp = ipList.find(ipItem => ipItem.orgName === selectedIpName);
+
+        if (selectedIp) {
+            // Предполагается, что lastDocNumber уже содержится в объекте ipItem
+            const lastDocNumber = selectedIp.lastDocNumber || 0;
+            let newContractNumber;
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1;
+            const currentYear = currentDate.getFullYear().toString().slice(-2);
+
+            if (selectedIp.fullName.includes('Уртенов')) {
+                newContractNumber = `${+lastDocNumber + 1}-${currentYear}`;
+            }
+
+            if (selectedIp.fullName.includes('Джатдоев')) {
+                newContractNumber = `${currentMonth < 10 ? '0' + currentMonth : currentMonth}-${+lastDocNumber + 1}`;
+            }
+
+            // Увеличиваем номер на единицу и устанавливаем его в поле contractNumber
+            setContractNumber(newContractNumber);
+        }
+    };
+
     const handleAmountChange = (event) => {
         let value = event.target.value;
         let sum = value.replace(' ', '');
@@ -74,6 +101,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         setWrittenAmountAct(rubles(sum));
     };
 
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -98,8 +126,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             stoimostNumber,
             contractEndDate,
         };
-
-        // console.log("Form Data: ", formData);
+        
         try {
             await axios.post('http://localhost:3000/generate-contract', { formData });
             console.log("Form Data: ", formData);
@@ -135,7 +162,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Выбор ИП:</label>
 
                     <div className={classes.modalSelectButton}>
-                        <select required value={ip} onChange={(e) => setIp(e.target.value)}>
+                        <select required value={ip} onChange={handleIpChange}>
                             <option value="" disabled>Выберите ИП</option>
                             {ipList.map((ipItem, index) => (
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
@@ -143,6 +170,10 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                         </select>
                         <button type="button" className={classes.addButton} onClick={openIpModal}>+</button>
                     </div>
+                </div>
+                <div>
+                    <label>Номер договора:</label>
+                    <input required type="text" value={contractNumber} placeholder={"1-24"} readOnly />
                 </div>
                 <div>
                     <label>Выбор контрагента:</label>
@@ -171,12 +202,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     </div>
                 )}
                 <div>
-                    <label>Номер договора:</label>
-                    <input required type="text" value={contractNumber} placeholder={'018-24'} onChange={(e) => setContractNumber(e.target.value)} />
-                </div>
-                <div>
                     <label>Дата договора цифры:</label>
-                    <input required type="date" onChange={handleDateChange} />
+                    <input required type="date" onChange={handleDateChange}/>
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Дата договора прописью:</label>

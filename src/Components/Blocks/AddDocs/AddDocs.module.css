@@ -10,19 +10,17 @@
     width: 100%;
     height: calc(100vh - 40px);
     background-color: #fff;
-    padding: 40px 20px;
+    padding: 40px;
     border-radius: 40px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.205);
     display: flex;
     flex-direction: column;
-    gap: 40px;
 }
 
 .mainForm_buttons {
     display: flex;
     width: 100%;
     gap: 20px;
-    padding: 0 20px;
 }
 
 .mainForm_buttons_btn {
@@ -46,6 +44,22 @@
     overflow: hidden;
     overflow-y: scroll;
 }
+.mainForm_docs_title{
+    height: auto;
+    margin-top: 40px;
+}
+
+.mainForm_docs_title .mainForm_docs_element {
+    background-color: #835de1;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+}
+
+.mainForm_docs_title .mainForm_docs_element:hover {
+    background-color: #835de1;
+    border: none;
+}
 
 .mainForm_docs_element {
     display: flex;
@@ -53,20 +67,22 @@
     align-items: center;
     gap: 80px;
     padding: 20px;
-    border-bottom: 1px solid #f3f3f3;
-    transition: all 0.3s ease-in-out;
+    position: relative;
 }
 
-.mainForm_docs_element:nth-child(1) {
-    background-color: #835de1;
-    color: #fff;
-    font-weight: 600;
+.mainForm_docs_element::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px; /* Высота границы */
+    background: linear-gradient(to right, transparent, #f3f3f3, transparent);
+}
+
+.mainForm_docs_element{
     border-radius: 10px;
 }
-
-.mainForm_docs_element:nth-child(1):hover {    
-    background-color: #835de1;
-} 
 
 .mainForm_docs_element:hover {
     border-bottom: 1px solid transparent;
@@ -88,6 +104,13 @@
 .mainForm_docs_element_btns img {
     height: 26px;
     cursor: pointer;
+}
+
+.mainForm_docs_element_num {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
 }
 
 .mainForm_docs_element_name {
