@@ -187,7 +187,7 @@ function AddDocs() {
                 <div className={classes.mainForm_docs_title}>
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
-                            <div className={classes.mainForm_docs_element_num}>Номер</div>
+                            <div className={classes.mainForm_docs_element_num}>№</div>
                             <div className={classes.mainForm_docs_element_name}>Наименование договора</div>
                             <div className={classes.mainForm_docs_element_contr}>Контрагент</div>
                             <div className={classes.mainForm_docs_element_date}>Дата</div>

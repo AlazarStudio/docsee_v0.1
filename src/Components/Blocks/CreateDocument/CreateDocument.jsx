@@ -20,11 +20,11 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     const [contractSubjectGen, setContractSubjectGen] = useState('');
     const [contractEndDate, setContractEndDate] = useState('');
     const [stoimostNumber, setStoimostNumber] = useState('');
+    const [services, setServices] = useState([{ id: 1, name: "", quantity: 1, unit: "шт.", pricePerUnit: "", vat: "Без НДС", totalPrice: "" }]);
 
     const handleContractTypeChange = (event) => {
         setContractType(event.target.value);
     };
-
 
     function getDate(dateInfo, type = 'numeric') {
         const date = new Date(dateInfo);
@@ -49,7 +49,6 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         const selectedIp = ipList.find(ipItem => ipItem.orgName === selectedIpName);
 
         if (selectedIp) {
-            // Предполагается, что lastDocNumber уже содержится в объекте ipItem
             const lastDocNumber = selectedIp.lastDocNumber || 0;
             let newContractNumber;
             const currentDate = new Date();
@@ -64,43 +63,76 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 newContractNumber = `${currentMonth < 10 ? '0' + currentMonth : currentMonth}-${+lastDocNumber + 1}`;
             }
 
-            // Увеличиваем номер на единицу и устанавливаем его в поле contractNumber
             setContractNumber(newContractNumber);
         }
     };
 
-    const handleAmountChange = (event) => {
-        let value = event.target.value;
-        let sum = value.replace(' ', '');
+    const handleServiceChange = (index, field, value) => {
+        const newServices = [...services];
+        newServices[index][field] = value;
 
-        // let sumForDogovor = sum.length > 0 && rubles(sum).charAt(0).toUpperCase() + rubles(sum).slice(1);
-        let sumForDogovor = rubles(sum);
+        if (field === 'quantity' || field === 'pricePerUnit') {
+            const quantity = parseFloat(newServices[index].quantity) || 0;
+            const pricePerUnit = parseFloat(newServices[index].pricePerUnit) || 0;
+            newServices[index].totalPrice = (quantity * pricePerUnit).toFixed(2);
+        }
 
-        const regex = /(\d{2} копеек?)$/;
-        const match = sum.length > 0 && sumForDogovor.match(regex);
+        setServices(newServices);
 
-        if (match && sum.length > 0) {
-            const kopiekiPart = match[0];
-            const rublesPart = sumForDogovor.replace(regex, '').trim();
+        // Calculate the total amount
+        const totalAmount = newServices.reduce((sum, service) => {
+            return sum + parseFloat(service.totalPrice || 0);
+        }, 0).toFixed(2);
 
-            const rubStartIndex = rublesPart.indexOf('рубл');
-            if (rubStartIndex !== -1) {
-                const beforeRub = rublesPart.slice(0, rubStartIndex).trim();
-                const afterRub = rublesPart.slice(rubStartIndex).trim();
-                const finalSumForDogovor = `(${beforeRub}) ${afterRub} ${kopiekiPart}`;
+        setAmount(totalAmount.toLocaleString('ru-RU'));
 
-                setWrittenAmountDogovor(finalSumForDogovor);
+        // Generate the sumForDogovor string safely
+        let sumForDogovor = rubles(totalAmount.replace(' ', ''));
+
+        // Set the written amount for the Act
+        setWrittenAmountAct(sumForDogovor);
+
+        if (typeof sumForDogovor === 'string') {
+            const regex = /(\d{2} копеек?)$/;
+            const match = sumForDogovor.match(regex);
+
+            if (match) {
+                const kopiekiPart = match[0];
+                const rublesPart = sumForDogovor.replace(regex, '').trim();
+
+                const rubStartIndex = rublesPart.indexOf('рубл');
+                if (rubStartIndex !== -1) {
+                    const beforeRub = rublesPart.slice(0, rubStartIndex).trim();
+                    const afterRub = rublesPart.slice(rubStartIndex).trim();
+                    const finalSumForDogovor = `(${beforeRub}) ${afterRub} ${kopiekiPart}`;
+
+                    setWrittenAmountDogovor(finalSumForDogovor);
+                } else {
+                    setWrittenAmountDogovor(sumForDogovor);
+                }
             } else {
                 setWrittenAmountDogovor(sumForDogovor);
             }
+        } else {
+            console.error("Error: sumForDogovor is not a string", sumForDogovor);
         }
 
-        setAmount(sum.toLocaleString('ru-RU'));
-        setContractJustNumber(Number(value.replace(',', '.').split('.')[0]).toLocaleString('ru-RU'))
-        setStoimostNumber(String(Number(sum.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
-        setWrittenAmountAct(rubles(sum));
+        setStoimostNumber(String(Number(totalAmount.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
     };
 
+
+    const addNewServiceRow = () => {
+        const newService = {
+            id: services.length + 1,  // Incrementing the row number
+            name: "",
+            quantity: 1,
+            unit: "шт.",
+            pricePerUnit: "",
+            vat: "Без НДС",
+            totalPrice: ""
+        };
+        setServices([...services, newService]);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -125,8 +157,9 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             writtenAmountDogovor,
             stoimostNumber,
             contractEndDate,
+            services,
         };
-        
+
         try {
             await axios.post('http://localhost:3000/generate-contract', { formData });
             console.log("Form Data: ", formData);
@@ -203,7 +236,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 )}
                 <div>
                     <label>Дата договора цифры:</label>
-                    <input required type="date" onChange={handleDateChange}/>
+                    <input required type="date" onChange={handleDateChange} />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Дата договора прописью:</label>
@@ -218,16 +251,45 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <input required type="text" value={contractSubjectGen} placeholder={'Разработке логотипа и фирменного стиля'} onChange={(e) => setContractSubjectGen(e.target.value)} />
                 </div>
                 <div>
+                    <label>Дата действия договора (до):</label>
+                    <input required type="date" onChange={handleContractEndDateChange} />
+                </div>
+                <table className={classes.serviceTable}>
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Наименование товара/услуги</th>
+                            <th>Кол-во</th>
+                            <th>Ед. изм.</th>
+                            <th>Цена за ед., ₽</th>
+                            <th>НДС</th>
+                            <th>Всего, ₽</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {services.map((service, index) => (
+                            <tr key={service.id}>
+                                <td>{service.id}</td> {/* Display row number */}
+                                <td><input type="text" value={service.name} onChange={(e) => handleServiceChange(index, 'name', e.target.value)} /></td>
+                                <td><input type="number" value={service.quantity} onChange={(e) => handleServiceChange(index, 'quantity', e.target.value)} /></td>
+                                <td><input type="text" value={service.unit} onChange={(e) => handleServiceChange(index, 'unit', e.target.value)} /></td>
+                                <td><input type="number" value={service.pricePerUnit} onChange={(e) => handleServiceChange(index, 'pricePerUnit', e.target.value)} /></td>
+                                <td><input type="text" value={service.vat} onChange={(e) => handleServiceChange(index, 'vat', e.target.value)} /></td>
+                                <td><input type="number" value={service.totalPrice} readOnly /></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className={classes.addTableLine}>
+                    <button type="button" onClick={addNewServiceRow}>+ Новая строка</button>
+                </div>
+                <div>
                     <label>Стоимость</label>
-                    <input required type="text" value={amount} onChange={handleAmountChange} placeholder="100 000" />
+                    <input required type="text" value={amount} readOnly />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Стоимость прописью:</label>
                     <input required type="text" value={writtenAmountAct} readOnly />
-                </div>
-                <div>
-                    <label>Дата действия договора (до):</label>
-                    <input required type="date" onChange={handleContractEndDateChange} />
                 </div>
 
                 <button type="submit">Создать</button>

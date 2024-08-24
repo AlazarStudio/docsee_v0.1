@@ -85,7 +85,7 @@
 }
 
 .mainForm_docs_element:hover {
-    border-bottom: 1px solid transparent;
+    /* border-bottom: 1px solid transparent; */
     background-color: #f3f3f3;
     border-radius: 10px;
 }
@@ -107,10 +107,12 @@
 }
 
 .mainForm_docs_element_num {
-    width: 50px;
+    width: 30px;
     display: flex;
+    justify-content: center;
     align-items: center;
     font-size: 14px;
+    text-align: center;
 }
 
 .mainForm_docs_element_name {
