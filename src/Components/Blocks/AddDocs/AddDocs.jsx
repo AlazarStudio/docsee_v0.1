@@ -9,6 +9,7 @@ import classes from './AddDocs.module.css';
 import { GET_DATA } from '../../../../requests.js';
 import axios from 'axios';
 import CreateActForm from "../CreateActForm/CreateActForm.jsx";
+import CreateReportForm from "../CreateReportForm/CreateReportForm.jsx";
 
 function AddDocs() {
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
@@ -17,7 +18,9 @@ function AddDocs() {
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
-    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false); 
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
 
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
@@ -130,6 +133,16 @@ function AddDocs() {
         setCurrentContract(null);
     };
 
+    const openReportModal = (contract) => {
+        setCurrentContract(contract);
+        setIsReportModalOpen(true);
+    };
+    
+    const closeReportModal = () => {
+        setIsReportModalOpen(false);
+        setCurrentContract(null);
+    };
+
     const handleActSubmit = async (creationDate) => {
         const formData = {
             creationDate,
@@ -145,18 +158,21 @@ function AddDocs() {
         }
     };
 
-    const handleReportSubmit = async (contract) => {
+    const handleReportSubmit = async (creationDate) => {
         const formData = {
-            contractName: contract.filename
+            creationDate,
+            contractName: currentContract.filename
         };
         try {
             await axios.post('http://localhost:3000/generate-report', { formData });
+            closeReportModal();
             fetchDocuments();
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
     };
+
 
     const handleDownload = (option) => {
         if (option.type === 'single') {
@@ -261,7 +277,7 @@ function AddDocs() {
                                                 "Создать счет",
                                                 "Создать акт",
                                                 "Создать отчет",
-                                                "Создать бриф",
+                                                // "Создать бриф",
                                             ]}
                                             onClose={closeMenu}
                                             onSelect={(option) => {
@@ -271,7 +287,7 @@ function AddDocs() {
                                                 } else if (option === "Создать акт") {
                                                     openActModal(doc);
                                                 } else if (option === "Создать отчет") {
-                                                    handleReportSubmit(doc);
+                                                    openReportModal(doc);
                                                 }
                                             }}
                                         />
@@ -293,6 +309,10 @@ function AddDocs() {
 
             <Modal isOpen={isActModalOpen} onClose={closeActModal}>
                 <CreateActForm onSubmit={handleActSubmit} onClose={closeActModal} />
+            </Modal>
+
+            <Modal isOpen={isReportModalOpen} onClose={closeReportModal}>
+                <CreateReportForm onSubmit={handleReportSubmit} onClose={closeReportModal} />
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>

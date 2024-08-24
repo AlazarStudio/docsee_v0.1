@@ -4,7 +4,7 @@ import classes from './CreateDocument.module.css';
 import axios from 'axios';
 
 function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal, fetchDocuments }) {
-    const [contractType, setContractType] = useState('');
+    const [contractType, setContractType] = useState('3');
     const [numberDate, setNumberDate] = useState('');
     const [writtenDate, setWrittenDate] = useState('');
     const [amount, setAmount] = useState('');
@@ -172,6 +172,36 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         }
     };
 
+    let list_2_side = [
+        {
+            label: "Шаблон договора двухсторонний",
+            template: "Template_2_side_document",
+        }
+    ]
+
+    let list_3_side = [
+        {
+            label: "Договор Комплексные Сайт",
+            template: "Template_3_side_document",
+        },
+        {
+            label: "Договор Комплексные Видео",
+            template: "Template_3_side_document_video",
+        },
+        {
+            label: "Договор Комплексные Рекламка",
+            template: "Template_3_side_document_marketing",
+        },
+        {
+            label: "Договор Комплексные Фирстиль",
+            template: "Template_3_side_document_firStyle",
+        },
+        {
+            label: "Договор Комплексные Фото-контент",
+            template: "Template_3_side_document_photoContent",
+        }
+    ]
+
     return (
         <>
             <h2>Создание нового документа</h2>
@@ -184,14 +214,30 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                         <option value="3">Трехсторонний</option>
                     </select>
                 </div>
-                <div>
-                    <label>Шаблон договора:</label>
-                    <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
-                        <option value="" disabled>Выберите шаблон</option>
-                        <option value="Template_3_side_document">Шаблон договора трехсторонний</option>
-                    </select>
-                </div>
-                <div>
+                {contractType === '2' ?
+                    <div>
+                        <label>Шаблон договора:</label>
+                        <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
+                            <option value="" disabled>Выберите шаблон</option>
+                            {list_2_side.map((listItem, index) => (
+                                <option key={index} value={listItem.template}>{listItem.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                    :
+                    contractType === '3' ?
+                        <div>
+                            <label>Шаблон договора:</label>
+                            <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
+                                <option value="" disabled>Выберите шаблон</option>
+                                {list_3_side.map((listItem, index) => (
+                                    <option key={index} value={listItem.template}>{listItem.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        : ''
+                }
+                <div div >
                     <label>Выбор ИП:</label>
 
                     <div className={classes.modalSelectButton}>
