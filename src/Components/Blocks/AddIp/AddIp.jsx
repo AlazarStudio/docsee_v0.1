@@ -42,6 +42,7 @@ function AddIp({ onSubmit }) {
         try {
             await axios.post('http://31.128.44.173:80/add-ip', { formData: updatedIpData });
             console.log("Form Data: ", updatedIpData);
+            alert(`ИП успешно создано`);
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
