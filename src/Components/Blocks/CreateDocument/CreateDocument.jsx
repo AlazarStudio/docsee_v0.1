@@ -4,7 +4,7 @@ import classes from './CreateDocument.module.css';
 import axios from 'axios';
 
 function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal, fetchDocuments }) {
-    const [contractType, setContractType] = useState('3');
+    const [contractType, setContractType] = useState('2');
     const [numberDate, setNumberDate] = useState('');
     const [writtenDate, setWrittenDate] = useState('');
     const [amount, setAmount] = useState('');
@@ -166,16 +166,36 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             closeModal();
 
             fetchDocuments()
+
+            alert(`Договор №${formData.contractNumber} ${formData.receiver ?
+                    (formData.receiver.type == 'Самозанятый' ? formData.receiver.fullName : formData.receiver.shortName) :
+                    formData.contragent ?
+                        (formData.contragent.type == 'Самозанятый' ? formData.contragent.fullName : formData.contragent.shortName)
+                        : ''
+                } успешно создан`
+            );
         } catch (error) {
             console.error("Ошибка запроса", error);
-            alert('Ошибка при отправке данных');
+            alert('Ошибка при отправке данных123w123');
         }
     };
 
     let list_2_side = [
         {
-            label: "Шаблон договора двухсторонний",
-            template: "Template_2_side_document",
+            label: "Договор дизайн услуг",
+            template: "Template_2_side_document_design",
+        },
+        {
+            label: "Договор логотип и фирстиль",
+            template: "Template_2_side_document_firStyleLogo",
+        },
+        {
+            label: "Договор ПО Сайт",
+            template: "Template_2_side_document_sitePO",
+        },
+        {
+            label: "Договор реклама",
+            template: "Template_2_side_document_marketing",
         }
     ]
 

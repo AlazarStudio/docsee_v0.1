@@ -18,7 +18,7 @@ function AddDocs() {
     const [isIpModalOpen, setIsIpModalOpen] = useState(false);
     const [isCounterpartyModalOpen, setIsCounterpartyModalOpen] = useState(false);
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
-    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false); 
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
 
@@ -106,15 +106,16 @@ function AddDocs() {
         closeCounterpartyModal();
     };
 
-    const handleInvoiceSubmit = async (creationDate) => {
+    const handleInvoiceSubmit = async (data) => {
         const formData = {
-            creationDate,
+            creationDate: data.date,
             contractName: currentContract.filename
         };
         try {
             await axios.post('http://localhost:3000/generate-expenses', { formData });
             closeInvoiceModal();
             fetchDocuments();
+            alert(`Счет для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
@@ -137,36 +138,42 @@ function AddDocs() {
         setCurrentContract(contract);
         setIsReportModalOpen(true);
     };
-    
+
     const closeReportModal = () => {
         setIsReportModalOpen(false);
         setCurrentContract(null);
     };
 
-    const handleActSubmit = async (creationDate) => {
+    const handleActSubmit = async (data) => {
         const formData = {
-            creationDate,
+            creationDate: data.date,
+            contractType: currentContract.data.contractType,
             contractName: currentContract.filename
         };
+        console.log(formData);
         try {
             await axios.post('http://localhost:3000/generate-acts', { formData });
             closeActModal();
             fetchDocuments();
+            alert(`Акт для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
     };
 
-    const handleReportSubmit = async (creationDate) => {
+    const handleReportSubmit = async (data) => {
         const formData = {
-            creationDate,
+            creationDate: data.date,
+            contractType: data.contractType,
+            reportTemplate: data.reportTemplate,
             contractName: currentContract.filename
         };
         try {
             await axios.post('http://localhost:3000/generate-report', { formData });
             closeReportModal();
             fetchDocuments();
+            alert(`Отчет для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
@@ -252,7 +259,15 @@ function AddDocs() {
                             <div className={classes.mainForm_docs_element} key={index}>
                                 <div className={classes.mainForm_docs_element_info}>
                                     <div className={classes.mainForm_docs_element_num}>{index + 1}</div>
-                                    <div className={classes.mainForm_docs_element_name}>Договор №{doc.data.contractNumber} {doc.data.receiver.fullName}</div>
+                                    <div className={classes.mainForm_docs_element_name}>
+                                        Договор №{doc.data.contractNumber} {
+                                            doc.data.receiver ?
+                                                (doc.data.receiver.type == 'Самозанятый' ? doc.data.receiver.fullName : doc.data.receiver.shortName) :
+                                                doc.data.contragent ?
+                                                    (doc.data.contragent.type == 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName)
+                                                    : ''
+                                        }
+                                    </div>
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                     <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
                                     <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
@@ -312,7 +327,7 @@ function AddDocs() {
             </Modal>
 
             <Modal isOpen={isReportModalOpen} onClose={closeReportModal}>
-                <CreateReportForm onSubmit={handleReportSubmit} onClose={closeReportModal} />
+                <CreateReportForm onSubmit={handleReportSubmit} currentContract={currentContract} onClose={closeReportModal} />
             </Modal>
 
             <Modal isOpen={isIpModalOpen} onClose={closeIpModal}>

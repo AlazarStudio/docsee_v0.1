@@ -13,7 +13,9 @@ function CreateInvoiceForm({ onSubmit, onClose }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(getDate(creationDate));
+        onSubmit({
+            date: getDate(creationDate)
+        });
     };
 
     return (
@@ -28,7 +30,7 @@ function CreateInvoiceForm({ onSubmit, onClose }) {
                         onChange={(e) => setCreationDate(e.target.value)}
                     />
                 </div>
-                
+
                 <button type="submit">Создать</button>
             </form >
         </>

@@ -13,22 +13,25 @@ function CreateActForm({ onSubmit, onClose }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(getDate(creationDate));
+        onSubmit({
+            date: getDate(creationDate)
+        });
     };
 
     return (
         <>
-            <h2>Создание нового акта для документа</h2>
+            <h2>Создание нового акта для договора</h2>
             <form className={classes.modalForm} onSubmit={handleSubmit}>
                 <div>
                     <label>Дата:</label>
                     <input
+                        required
                         type="date"
                         value={creationDate}
                         onChange={(e) => setCreationDate(e.target.value)}
                     />
                 </div>
-                
+
                 <button type="submit">Создать</button>
             </form >
         </>
