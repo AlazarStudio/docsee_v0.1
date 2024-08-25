@@ -36,7 +36,7 @@ function SelfEmployedCounterpartyForm({ formData, handleChange }) {
                     required
                     className={classes.input}
                     type="text"
-                    name="orgNameFen"
+                    name="orgNameGen"
                     value={formData.orgNameGen}
                     onChange={handleChange}
                     placeholder='Уртенов Азамат Заурович'

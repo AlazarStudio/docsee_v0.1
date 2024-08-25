@@ -198,6 +198,8 @@ function AddDocs() {
         setFilesToDownload([]);
     };
 
+    console.log(ipList)
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
