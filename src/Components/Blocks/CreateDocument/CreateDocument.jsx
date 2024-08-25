@@ -116,7 +116,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         } else {
             console.error("Error: sumForDogovor is not a string", sumForDogovor);
         }
-
+        
+        setContractJustNumber(String(Number(totalAmount.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ',').split(',')[0])
         setStoimostNumber(String(Number(totalAmount.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
     };
 
