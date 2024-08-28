@@ -198,7 +198,7 @@ function AddDocs() {
         setFilesToDownload([]);
     };
 
-    console.log(ipList)
+    console.log(docList)
 
     return (
         <div className={classes.main}>
@@ -214,6 +214,7 @@ function AddDocs() {
                         <div className={classes.mainForm_docs_element_info}>
                             <div className={classes.mainForm_docs_element_num}>№</div>
                             <div className={classes.mainForm_docs_element_name}>Наименование договора</div>
+                            <div className={classes.mainForm_docs_element_contr}>Предмет договора</div>
                             <div className={classes.mainForm_docs_element_contr}>Контрагент</div>
                             <div className={classes.mainForm_docs_element_date}>Дата</div>
                             <div className={classes.mainForm_docs_element_price}>Стоимость</div>
@@ -270,6 +271,7 @@ function AddDocs() {
                                                     : ''
                                         }
                                     </div>
+                                    <div className={classes.mainForm_docs_element_contr}>{doc.data.contractSubjectNom}</div>
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                     <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
                                     <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
