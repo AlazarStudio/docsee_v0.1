@@ -216,6 +216,69 @@ function AddDocs() {
         setFilesToDownload([]);
     };
 
+    const [sortColumn, setSortColumn] = useState('');
+    const [sortDirection, setSortDirection] = useState('asc'); // 'asc' для возрастания, 'desc' для убывания
+
+    const handleSort = (column) => {
+        let newSortDirection = 'asc';
+
+        if (sortColumn === column) {
+            // Если кликнули на ту же колонку, меняем направление сортировки
+            newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        }
+
+        setSortColumn(column);
+        setSortDirection(newSortDirection);
+        sortDocuments(column, newSortDirection);
+    };
+
+    const sortDocuments = (column, direction) => {
+        const sortedDocuments = [...docList].sort((a, b) => {
+            let compareA, compareB;
+            switch (column) {
+                case 'name':
+                    compareA = a.filename;
+                    compareB = b.filename;
+                    break;
+                case 'subject':
+                    compareA = a.data.contractSubjectNom;
+                    compareB = b.data.contractSubjectNom;
+                    break;
+                case 'contragent':
+                    compareA = a.data.contragent.type === 'Самозанятый' ? a.data.contragent.fullName : a.data.contragent.shortName;
+                    compareB = b.data.contragent.type === 'Самозанятый' ? b.data.contragent.fullName : b.data.contragent.shortName;
+                    break;
+                case 'date':
+                    compareA = convertDate(a.data.numberDate);
+                    compareB = convertDate(b.data.numberDate);
+                    break;
+                case 'price':
+                    compareA = parseFloat(a.data.stoimostNumber);
+                    compareB = parseFloat(b.data.stoimostNumber);
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (compareA < compareB) return direction === 'asc' ? -1 : 1;
+            if (compareA > compareB) return direction === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        setDocList(sortedDocuments);
+    };
+
+    const convertDate = (dateString) => {
+        const [day, month, year] = dateString.split('.');
+        return `${month}-${day}-${year}`;
+    };
+
+    // функция для отображения стрелки
+    const renderSortArrow = (column) => {
+        if (sortColumn !== column) return null;
+        return sortDirection === 'asc' ? '↑' : '↓';
+    };
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -229,11 +292,11 @@ function AddDocs() {
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
                             <div className={classes.mainForm_docs_element_num}>№</div>
-                            <div className={classes.mainForm_docs_element_name}>Наименование договора</div>
-                            <div className={classes.mainForm_docs_element_contr}>Предмет договора</div>
-                            <div className={classes.mainForm_docs_element_contr}>Контрагент</div>
-                            <div className={classes.mainForm_docs_element_date}>Дата</div>
-                            <div className={classes.mainForm_docs_element_price}>Стоимость</div>
+                            <div className={classes.mainForm_docs_element_name} onClick={() => handleSort('name')}>Наименование договора {renderSortArrow('name')}</div>
+                            <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('subject')}>Предмет договора {renderSortArrow('subject')}</div>
+                            <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('contragent')}>Контрагент {renderSortArrow('contragent')}</div>
+                            <div className={classes.mainForm_docs_element_date} onClick={() => handleSort('date')}>Дата {renderSortArrow('date')}</div>
+                            <div className={classes.mainForm_docs_element_price} onClick={() => handleSort('price')}>Стоимость {renderSortArrow('price')}</div>
                         </div>
                     </div>
                 </div>
