@@ -42,6 +42,7 @@ function AddDocs() {
         });
     };
 
+
     useEffect(() => {
         fetchDocuments();
     }, []);
@@ -180,6 +181,23 @@ function AddDocs() {
         }
     };
 
+    const handleDeleteDocument = async (filename) => {
+        var isAdmin = confirm("Вы уверены что хотите удалить документ?");
+
+        if (isAdmin) {
+            try {
+                await axios.delete('http://31.128.44.173:80/delete-document', {
+                    data: { filename }
+                });
+                fetchDocuments();
+                alert(`Документ ${filename} успешно удален`);
+            } catch (error) {
+                console.error("Ошибка запроса", error);
+                alert('Ошибка при отправке данных');
+            }
+        }
+    };
+
 
     const handleDownload = (option) => {
         if (option.type === 'single') {
@@ -197,8 +215,6 @@ function AddDocs() {
         setIsDownloadModalOpen(false);
         setFilesToDownload([]);
     };
-
-    console.log(docList)
 
     return (
         <div className={classes.main}>
@@ -223,7 +239,7 @@ function AddDocs() {
                 </div>
 
                 <div className={classes.mainForm_docs}>
-                    {docList.length > 0 && sortDocumentsByDate(docList).map((doc, index) => {
+                    {(docList && docList.length > 0) && docList.map((doc, index) => {
                         const downloadOptions = [];
 
                         if (doc.filename) {
@@ -311,6 +327,7 @@ function AddDocs() {
                                             }}
                                         />
                                     )}
+                                    <img className={classes.deleteIcon} src="/delete.png" alt="" onClick={() => handleDeleteDocument(doc.filename)} />
                                 </div>
                             </div>
                         );

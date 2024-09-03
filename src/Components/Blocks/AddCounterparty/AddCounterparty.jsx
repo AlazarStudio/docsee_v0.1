@@ -16,7 +16,7 @@ function AddCounterparty({ onSubmit }) {
         shortName: '',
         orgNameGen: '',
         basis: 'Устава',
-        print: '',
+        print: 'да',
         post: '',
         directorName: '',
         directorFullNameGen: '',
@@ -42,6 +42,7 @@ function AddCounterparty({ onSubmit }) {
         type: counterpartyType,
     });
 
+    
     // Состояние для МСП контрагента
     const [mspCounterpartyData, setMspCounterpartyData] = useState({
         orgName: '',
@@ -49,7 +50,7 @@ function AddCounterparty({ onSubmit }) {
         shortName: '',
         orgNameGen: '',
         basis: 'Устава',
-        print: '',
+        print: 'да',
         post: '',
         directorName: '',
         directorFullNameGen: '',
@@ -66,7 +67,7 @@ function AddCounterparty({ onSubmit }) {
         phone: '',
         type: counterpartyType,
     });
-
+    
     // Состояние для ИП контрагента
     const [ipCounterpartyData, setIpCounterpartyData] = useState({
         orgName: '',
@@ -74,7 +75,7 @@ function AddCounterparty({ onSubmit }) {
         shortName: '',
         orgNameGen: '',
         basis: 'ОРГНИП',
-        print: '',
+        print: 'да',
         post: '',
         directorName: '',  // Для ИП это будет ФИО
         directorFullNameGen: '',  // ФИО в род. падеже
@@ -90,14 +91,14 @@ function AddCounterparty({ onSubmit }) {
         phone: '',
         type: counterpartyType,
     });
-
+    
     // Состояние для Самозанятого контрагента
     const [selfEmployedCounterpartyData, setSelfEmployedCounterpartyData] = useState({
         orgName: '',
         fullName: '',
         orgNameGen: '',
         basis: 'зарегистрирован(а) в ФНС в качестве налогоплательщика налога на профессиональный доход в соответствии с ФЗ от 27.11.2018 №422-ФЗ)',
-        print: '',
+        print: 'нет',
         post: '',         
         directorFullNameGen: '',
         initials: '',
@@ -113,16 +114,16 @@ function AddCounterparty({ onSubmit }) {
         phone: '',
         type: counterpartyType,
     });
-
+    
     const handleChange = (e, setData) => {
         const { name, value } = e.target;
         setData(prevState => ({
             ...prevState,
             [name]: value,
         }));
-
+        
         setGosCounterpartyData(prevState => ({ ...prevState, type: counterpartyType }))
-
+        
         setMspCounterpartyData(prevState => ({ ...prevState, type: counterpartyType }))
 
         setIpCounterpartyData(prevState => ({ ...prevState, type: counterpartyType }))

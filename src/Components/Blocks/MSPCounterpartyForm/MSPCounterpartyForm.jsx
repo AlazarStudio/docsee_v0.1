@@ -58,15 +58,10 @@ function MSPCounterpartyForm({ formData, handleChange }) {
                         
             <div>
                 <label>Печать</label>
-                <input
-                    required
-                    className={classes.input}
-                    type="text"
-                    name="print"
-                    value={formData.print}
-                    onChange={handleChange}
-                    placeholder='Да или нет'
-                />
+                <select name="print" required className={classes.input} value={formData.print} onChange={handleChange}>
+                    <option value="да">Да</option>
+                    <option value="нет">Нет</option>
+                </select>
             </div>
             
             <div>

@@ -97,6 +97,7 @@
 
 .mainForm_docs_element_btns {
     display: flex;
+    align-items: center;
     gap: 20px;
     position: relative;
 }
@@ -169,4 +170,8 @@
 .downloadModal ul li:hover{
     background-color: #835de1;
     color: #fff;
+}
+
+.mainForm_docs_element_btns .deleteIcon{
+    height: 20px;
 }

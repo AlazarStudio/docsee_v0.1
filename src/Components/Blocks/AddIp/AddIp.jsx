@@ -8,7 +8,7 @@ function AddIp({ onSubmit }) {
         fullName: '',
         shortName: '',
         basis: '',
-        print: '',
+        print: 'да',
         post: '',
         fio: '',
         initials: '',
@@ -52,7 +52,7 @@ function AddIp({ onSubmit }) {
             fullName: '',
             shortName: '',
             basis: '',
-            print: '',
+            print: 'да',
             post: '',
             fio: '',
             address: '',
@@ -67,6 +67,8 @@ function AddIp({ onSubmit }) {
             orgName: '',
         });
     };
+
+    console.log(ipData)
 
     return (
         <>
@@ -108,15 +110,10 @@ function AddIp({ onSubmit }) {
                 </div>
                 <div>
                     <label>Печать</label>
-                    <input
-                        required
-                        className={classes.input}
-                        type="text"
-                        name="print"
-                        value={ipData.print}
-                        onChange={handleIpDataChange}
-                        placeholder='Да или нет'
-                    />
+                    <select name="print" required className={classes.input} value={ipData.print} onChange={handleIpDataChange}>
+                        <option value="да">Да</option>
+                        <option value="нет">Нет</option>
+                    </select>
                 </div>
                 <div>
                     <label>Должность</label>
