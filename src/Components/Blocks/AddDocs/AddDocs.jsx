@@ -34,7 +34,6 @@ function AddDocs() {
         GET_DATA('contragents.json', setCounterpartyList);
     };
 
-
     const sortDocumentsByDate = (documents) => {
         return documents.sort((a, b) => {
             const dateA = new Date(a.data.numberDate);
@@ -217,7 +216,7 @@ function AddDocs() {
         setFilesToDownload([]);
     };
 
-    const [sortColumn, setSortColumn] = useState('');
+    const [sortColumn, setSortColumn] = useState('porNumber');
     const [sortDirection, setSortDirection] = useState('asc'); // 'asc' для возрастания, 'desc' для убывания
 
     const handleSort = (column) => {
@@ -237,6 +236,10 @@ function AddDocs() {
         const sortedDocuments = [...docList].sort((a, b) => {
             let compareA, compareB;
             switch (column) {
+                case 'porNumber':
+                    compareA = parseFloat(a.porNumber);
+                    compareB = parseFloat(b.porNumber);
+                    break;
                 case 'name':
                     compareA = a.filename;
                     compareB = b.filename;
@@ -318,7 +321,7 @@ function AddDocs() {
                 <div className={classes.mainForm_docs_title}>
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
-                            <div className={classes.mainForm_docs_element_num}>№</div>
+                            <div className={classes.mainForm_docs_element_num} onClick={() => handleSort('porNumber')}>№ {renderSortArrow('porNumber')}</div>
                             <div className={classes.mainForm_docs_element_name} onClick={() => handleSort('name')}>Наименование договора {renderSortArrow('name')}</div>
                             <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('subject')}>Предмет договора {renderSortArrow('subject')}</div>
                             <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('contragent')}>Контрагент {renderSortArrow('contragent')}</div>
@@ -367,7 +370,7 @@ function AddDocs() {
                         return (
                             <div className={classes.mainForm_docs_element} key={index}>
                                 <div className={classes.mainForm_docs_element_info}>
-                                    <div className={classes.mainForm_docs_element_num}>{index + 1}</div>
+                                    <div className={classes.mainForm_docs_element_num}>{doc.porNumber}</div>
                                     <div className={classes.mainForm_docs_element_name}>
                                         Договор №{doc.data.contractNumber} {
                                             doc.data.receiver ?
