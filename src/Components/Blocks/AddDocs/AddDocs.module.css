@@ -19,8 +19,16 @@
 
 .mainForm_buttons {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     gap: 20px;
+}
+
+.mainForm_buttons_elem {
+    display: flex;
+    gap: 20px;
+    width: 50%;
 }
 
 .mainForm_buttons_btn {
@@ -32,6 +40,16 @@
     transition: all 0.3s ease-in-out;
     font-weight: 600;
     font-size: 14px;
+}
+
+.mainForm_buttons_search {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mainForm_buttons_search input {
+    width: 50%;
 }
 
 .mainForm_buttons_btn:hover {

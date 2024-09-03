@@ -34,6 +34,7 @@ function AddDocs() {
         GET_DATA('contragents.json', setCounterpartyList);
     };
 
+
     const sortDocumentsByDate = (documents) => {
         return documents.sort((a, b) => {
             const dateA = new Date(a.data.numberDate);
@@ -273,19 +274,45 @@ function AddDocs() {
         return `${month}-${day}-${year}`;
     };
 
+
     // функция для отображения стрелки
     const renderSortArrow = (column) => {
         if (sortColumn !== column) return null;
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredDocuments = docList.filter(doc => {
+        const searchLower = searchQuery.toLowerCase();
+        return (
+            doc.filename.toLowerCase().includes(searchLower) ||
+            doc.data.contractSubjectNom.toLowerCase().includes(searchLower) ||
+            (doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName).toLowerCase().includes(searchLower) ||
+            doc.data.numberDate.toLowerCase().includes(searchLower) ||
+            doc.data.stoimostNumber.toLowerCase().includes(searchLower)
+        );
+    });
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
                 <div className={classes.mainForm_buttons}>
-                    <div className={classes.mainForm_buttons_btn} onClick={openModal}>Создать документ</div>
-                    <div className={classes.mainForm_buttons_btn} onClick={openIpModal}>Добавить ИП</div>
-                    <div className={classes.mainForm_buttons_btn} onClick={openCounterpartyModal}>Добавить контрагента</div>
+                    <div className={classes.mainForm_buttons_elem}>
+                        <div className={classes.mainForm_buttons_btn} onClick={openModal}>Создать документ</div>
+                        <div className={classes.mainForm_buttons_btn} onClick={openIpModal}>Добавить ИП</div>
+                        <div className={classes.mainForm_buttons_btn} onClick={openCounterpartyModal}>Добавить контрагента</div>
+                    </div>
+
+                    <div className={classes.mainForm_buttons_search}>
+                        <input
+                            type="text"
+                            className={classes.searchInput}
+                            placeholder="Поиск..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <div className={classes.mainForm_docs_title}>
@@ -302,7 +329,7 @@ function AddDocs() {
                 </div>
 
                 <div className={classes.mainForm_docs}>
-                    {(docList && docList.length > 0) && docList.map((doc, index) => {
+                    {(docList && docList.length > 0) && filteredDocuments.map((doc, index) => {
                         const downloadOptions = [];
 
                         if (doc.filename) {
@@ -353,7 +380,7 @@ function AddDocs() {
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contractSubjectNom}</div>
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                     <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
-                                    <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber} ₽</div>
+                                    <div className={classes.mainForm_docs_element_price}>{Number(doc.data.stoimostNumber).toLocaleString('ru-RU')} ₽</div>
                                 </div>
                                 <div className={classes.mainForm_docs_element_btns}>
                                     <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(index)} />
