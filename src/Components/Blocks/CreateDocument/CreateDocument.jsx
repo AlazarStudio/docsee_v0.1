@@ -175,6 +175,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                         : ''
                 } успешно создан`
             );
+            location.reload();
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных123w123');

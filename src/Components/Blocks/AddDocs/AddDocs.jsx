@@ -21,7 +21,6 @@ function AddDocs() {
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
-
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
