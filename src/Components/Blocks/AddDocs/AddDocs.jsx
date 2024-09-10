@@ -10,6 +10,7 @@ import { GET_DATA } from '../../../../requests.js';
 import axios from 'axios';
 import CreateActForm from "../CreateActForm/CreateActForm.jsx";
 import CreateReportForm from "../CreateReportForm/CreateReportForm.jsx";
+import Notification from "../Notification/Notification.jsx";
 
 function AddDocs() {
     // Состояния для меню и модальных окон
@@ -35,7 +36,13 @@ function AddDocs() {
     const [sortDirection, setSortDirection] = useState('desc'); // 'asc' для возрастания, 'desc' для убывания
     const [searchQuery, setSearchQuery] = useState('');
 
+    const [notification, setNotification] = useState({ message: "", status: "" });
+
     const documentStates = ['Создан', 'Закрывающие готовы', 'Согласование', 'Ждет оплаты', 'Оплачен'];
+
+    const clearNotification = () => {
+        setNotification({ message: "", status: "" });
+    };
 
     // Функция для получения данных
     const fetchDocuments = () => {
@@ -144,10 +151,13 @@ function AddDocs() {
             await axios.post('https://backend.demoalazar.ru/generate-expenses', { formData });
             closeInvoiceModal();
             fetchDocuments();
-            alert(`Счет для документа ${formData.contractName} успешно создан`);
+
+            setNotification({ message: `Счет для документа ${formData.contractName} успешно создан`, status: "success" });
+            // alert(`Счет для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
-            alert('Ошибка при отправке данных');
+            setNotification({ message: "Ошибка при отправке данных", status: "error" });
+            // alert('Ошибка при отправке данных');
         }
     };
 
@@ -161,10 +171,13 @@ function AddDocs() {
             await axios.post('https://backend.demoalazar.ru/generate-acts', { formData });
             closeActModal();
             fetchDocuments();
-            alert(`Акт для документа ${formData.contractName} успешно создан`);
+            setNotification({ message: `Акт для документа ${formData.contractName} успешно создан`, status: "success" });
+            // alert(`Акт для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
-            alert('Ошибка при отправке данных');
+            
+            setNotification({ message: "Ошибка при отправке данных", status: "error" });
+            // alert('Ошибка при отправке данных');
         }
     };
 
@@ -179,10 +192,12 @@ function AddDocs() {
             await axios.post('https://backend.demoalazar.ru/generate-report', { formData });
             closeReportModal();
             fetchDocuments();
-            alert(`Отчет для документа ${formData.contractName} успешно создан`);
+            setNotification({ message: `Отчет для документа ${formData.contractName} успешно создан`, status: "success" });
+            // alert(`Отчет для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
-            alert('Ошибка при отправке данных');
+            setNotification({ message: "Ошибка при отправке данных", status: "error" });
+            // alert('Ошибка при отправке данных');
         }
     };
 
@@ -195,10 +210,12 @@ function AddDocs() {
                     data: { filename }
                 });
                 fetchDocuments();
-                alert(`Документ ${filename} успешно удален`);
+                setNotification({ message: `Документ ${filename} успешно удален`, status: "success" });
+                // alert(`Документ ${filename} успешно удален`);
             } catch (error) {
                 console.error("Ошибка запроса", error);
-                alert('Ошибка при отправке данных');
+                setNotification({ message: "Ошибка при отправке данных", status: "error" });
+                // alert('Ошибка при отправке данных');
             }
         }
     };
@@ -306,9 +323,11 @@ function AddDocs() {
                 data: { filename, state }
             });
             fetchDocuments();
+            setNotification({ message: `Состояние успешно изменилось`, status: "success" });
         } catch (error) {
             console.error("Ошибка запроса", error);
-            alert('Ошибка при отправке данных');
+            setNotification({ message: "Ошибка при отправке данных", status: "error" });
+            // alert('Ошибка при отправке данных');
         }
     };
 
@@ -327,8 +346,14 @@ function AddDocs() {
     // Получаем сгруппированные документы
     const groupedDocuments = groupDocumentsByState(filteredDocuments);
 
-    console.log(groupedDocuments)
 
+    // const triggerSuccessNotification = () => {
+    //     setNotification({ message: "Operation was successful!", status: "success" });
+    // };
+
+    // const triggerErrorNotification = () => {
+    //     setNotification({ message: "Operation failed!", status: "error" });
+    // };
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -502,6 +527,8 @@ function AddDocs() {
                 </div>
 
             </div>
+
+            <Notification message={notification.message} status={notification.status} clearNotification={clearNotification} />
 
             {/* Модальные окна */}
             <Modal isOpen={isModalOpen} onClose={closeModal}>
