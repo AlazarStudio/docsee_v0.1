@@ -233,6 +233,7 @@ function AddDocs() {
 
     const sortDocuments = (column, direction) => {
         const sortedDocuments = [...docList].sort((a, b) => {
+            // console.log(docList)
             let compareA, compareB;
             switch (column) {
                 case 'porNumber':
@@ -258,6 +259,10 @@ function AddDocs() {
                 case 'price':
                     compareA = parseFloat(a.data.stoimostNumber);
                     compareB = parseFloat(b.data.stoimostNumber);
+                    break;
+                case 'state':
+                    compareA = a.state;
+                    compareB = b.state;
                     break;
                 default:
                     return 0;
@@ -296,6 +301,28 @@ function AddDocs() {
         );
     });
 
+
+    // const [stateDogovor, setStateDogovor] = useState('Создан');
+
+    const changeStateDogovor = (filename, stateDogovor) => {
+        handleUpdateStateDocument(filename, stateDogovor)
+    }
+
+    const handleUpdateStateDocument = async (filename, state) => {
+
+        try {
+            await axios.put('https://backend.demoalazar.ru/update-document-state', {
+                data: { filename, state }
+            });
+            fetchDocuments();
+            // alert(`Состояние документа ${filename} успешно изменено`);
+        } catch (error) {
+            console.error("Ошибка запроса", error);
+            alert('Ошибка при отправке данных');
+        }
+    };
+
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -326,6 +353,7 @@ function AddDocs() {
                             <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('contragent')}>Контрагент {renderSortArrow('contragent')}</div>
                             <div className={classes.mainForm_docs_element_date} onClick={() => handleSort('date')}>Дата {renderSortArrow('date')}</div>
                             <div className={classes.mainForm_docs_element_price} onClick={() => handleSort('price')}>Стоимость {renderSortArrow('price')}</div>
+                            <div className={classes.mainForm_docs_element_state} onClick={() => handleSort('state')}>Состояние {renderSortArrow('state')}</div>
                         </div>
                     </div>
                 </div>
@@ -382,7 +410,13 @@ function AddDocs() {
                         }
 
                         return (
-                            <div className={classes.mainForm_docs_element} key={index}>
+                            <div className={`
+                                ${classes.mainForm_docs_element} 
+                                ${doc.state == 'Закрывающие готовы' && classes.blueState}
+                                ${doc.state == 'Cогласование' && classes.yellowState}
+                                ${doc.state == 'Ждет оплаты' && classes.orangeState}
+                                ${doc.state == 'Оплачен' && classes.greenState}
+                            `} key={index}>
                                 <div className={classes.mainForm_docs_element_info}>
                                     <div className={classes.mainForm_docs_element_num}>{doc.porNumber}</div>
                                     <div className={classes.mainForm_docs_element_name}>
@@ -398,6 +432,15 @@ function AddDocs() {
                                     <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
                                     <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
                                     <div className={classes.mainForm_docs_element_price}>{Number(doc.data.stoimostNumber).toLocaleString('ru-RU')} ₽</div>
+                                    <div className={classes.mainForm_docs_element_state}>
+                                        <select onChange={(e) => changeStateDogovor(doc.filename, e.target.value)} value={doc.state}>
+                                            <option value="Создан">Создан</option>
+                                            <option value="Закрывающие готовы">Закрывающие готовы</option>
+                                            <option value="Cогласование">Cогласование</option>
+                                            <option value="Ждет оплаты">Ждет оплаты</option>
+                                            <option value="Оплачен">Оплачен</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div className={classes.mainForm_docs_element_btns}>
                                     <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(index)} />
