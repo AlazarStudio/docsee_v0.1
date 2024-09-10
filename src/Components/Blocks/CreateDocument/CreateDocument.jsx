@@ -162,7 +162,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         };
 
         try {
-            await axios.post('http://31.128.44.173:80/generate-contract', { formData });
+            await axios.post('https://backend.demoalazar.ru/generate-contract', { formData });
             console.log("Form Data: ", formData);
             closeModal();
 

@@ -112,7 +112,7 @@ function AddDocs() {
             contractName: currentContract.filename
         };
         try {
-            await axios.post('http://31.128.44.173:80/generate-expenses', { formData });
+            await axios.post('https://backend.demoalazar.ru/generate-expenses', { formData });
             closeInvoiceModal();
             fetchDocuments();
             alert(`Счет для документа ${formData.contractName} успешно создан`);
@@ -152,7 +152,7 @@ function AddDocs() {
         };
         console.log(formData);
         try {
-            await axios.post('http://31.128.44.173:80/generate-acts', { formData });
+            await axios.post('https://backend.demoalazar.ru/generate-acts', { formData });
             closeActModal();
             fetchDocuments();
             alert(`Акт для документа ${formData.contractName} успешно создан`);
@@ -170,7 +170,7 @@ function AddDocs() {
             contractName: currentContract.filename
         };
         try {
-            await axios.post('http://31.128.44.173:80/generate-report', { formData });
+            await axios.post('https://backend.demoalazar.ru/generate-report', { formData });
             closeReportModal();
             fetchDocuments();
             alert(`Отчет для документа ${formData.contractName} успешно создан`);
@@ -185,7 +185,7 @@ function AddDocs() {
 
         if (isAdmin) {
             try {
-                await axios.delete('http://31.128.44.173:80/delete-document', {
+                await axios.delete('https://backend.demoalazar.ru/delete-document', {
                     data: { filename }
                 });
                 fetchDocuments();
@@ -201,7 +201,7 @@ function AddDocs() {
     const handleDownload = (option) => {
         if (option.type === 'single') {
             const link = document.createElement('a');
-            link.href = `http://31.128.44.173:80/docs/${option.url}`;
+            link.href = `https://backend.demoalazar.ru/docs/${option.url}`;
             link.download = '';
             link.click();
         } else if (option.type === 'multiple') {
@@ -475,7 +475,7 @@ function AddDocs() {
                         {filesToDownload.map((file, index) => (
                             <li key={index} onClick={() => {
                                 const link = document.createElement('a');
-                                link.href = `http://31.128.44.173:80/docs/${file.url}`;
+                                link.href = `https://backend.demoalazar.ru/docs/${file.url}`;
                                 link.download = '';
                                 link.click();
                                 closeDownloadModal();

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const GET_DATA = async (filename, functionState) => {
     try {
-        const response = await axios.get(`http://31.128.44.173:80/db/${filename}`);
+        const response = await axios.get(`https://backend.demoalazar.ru/db/${filename}`);
 
         if (response.data && Array.isArray(response.data)) {
             response.data = response.data.reverse().map((item, index) => {
@@ -22,7 +22,7 @@ export const GET_DATA = async (filename, functionState) => {
 
 export const CREATE_DATA = async (data, endpoint, functionState) => {
     try {
-        const response = await axios.post(`http://31.128.44.173:80/${endpoint}`, { data });
+        const response = await axios.post(`https://backend.demoalazar.ru/${endpoint}`, { data });
         const filename = response.data;
 
         functionState(prevDocuments => [...prevDocuments, { filename, ...data }]);

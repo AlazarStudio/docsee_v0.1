@@ -40,7 +40,7 @@ function AddIp({ onSubmit }) {
         onSubmit(updatedIpData);
 
         try {
-            await axios.post('http://31.128.44.173:80/add-ip', { formData: updatedIpData });
+            await axios.post('https://backend.demoalazar.ru/add-ip', { formData: updatedIpData });
             console.log("Form Data: ", updatedIpData);
             alert(`ИП успешно создано`);
         } catch (error) {
