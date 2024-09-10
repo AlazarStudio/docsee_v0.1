@@ -296,8 +296,6 @@ function AddDocs() {
         );
     });
 
-    console.log(filteredDocuments)
-
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
