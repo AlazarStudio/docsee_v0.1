@@ -32,10 +32,10 @@ function AddDocs() {
 
     // Состояния для сортировки и поиска
     const [sortColumn, setSortColumn] = useState('date');
-    const [sortDirection, setSortDirection] = useState('asc'); // 'asc' для возрастания, 'desc' для убывания
+    const [sortDirection, setSortDirection] = useState('desc'); // 'asc' для возрастания, 'desc' для убывания
     const [searchQuery, setSearchQuery] = useState('');
 
-    const documentStates = ['Создан', 'Закрывающие готовы', 'Cогласование', 'Ждет оплаты', 'Оплачен'];
+    const documentStates = ['Создан', 'Закрывающие готовы', 'Согласование', 'Ждет оплаты', 'Оплачен'];
 
     // Функция для получения данных
     const fetchDocuments = () => {
@@ -290,6 +290,7 @@ function AddDocs() {
             doc.data.contractSubjectNom.toLowerCase().includes(searchLower) ||
             (doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName).toLowerCase().includes(searchLower) ||
             doc.data.numberDate.toLowerCase().includes(searchLower) ||
+            doc.state.toLowerCase().includes(searchLower) ||
             doc.data.stoimostNumber.toLowerCase().includes(searchLower)
         );
     });
@@ -425,7 +426,7 @@ function AddDocs() {
                                                 ${classes.mainForm_docs_element}
                                                 ${doc.state === 'Создан' && classes.grayState}
                                                 ${doc.state === 'Закрывающие готовы' && classes.blueState}
-                                                ${doc.state === 'Cогласование' && classes.yellowState}
+                                                ${doc.state === 'Согласование' && classes.yellowState}
                                                 ${doc.state === 'Ждет оплаты' && classes.orangeState}
                                                 ${doc.state === 'Оплачен' && classes.greenState}
                                             `}
@@ -450,7 +451,7 @@ function AddDocs() {
                                                     <select onChange={(e) => changeStateDogovor(doc.filename, e.target.value)} value={doc.state}>
                                                         <option value="Создан">Создан</option>
                                                         <option value="Закрывающие готовы">Закрывающие готовы</option>
-                                                        <option value="Cогласование">Cогласование</option>
+                                                        <option value="Согласование">Согласование</option>
                                                         <option value="Ждет оплаты">Ждет оплаты</option>
                                                         <option value="Оплачен">Оплачен</option>
                                                     </select>

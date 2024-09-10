@@ -14,14 +14,14 @@ export const GET_DATA = async (filename, functionState) => {
             response.data.sort((a, b) => {
                 if (a.data && b.data && a.data.numberDate && b.data.numberDate) {
                     // Сравниваем объекты Date
-                    return convertDate(b.data.numberDate) - convertDate(a.data.numberDate);
+                    return convertDate(a.data.numberDate) - convertDate(b.data.numberDate);
                 }
                 return 0; // Если дата отсутствует, пропустить сортировку для этого элемента
             });
         }
 
         // Устанавливаем отсортированные данные в state
-        functionState(response.data);
+        functionState(response.data.reverse());
     } catch (error) {
         console.error("Ошибка запроса", error);
     }
