@@ -94,7 +94,7 @@
     bottom: 0;
     width: 100%;
     height: 1px; /* Высота границы */
-    background: linear-gradient(to right, transparent, #f3f3f3, transparent);
+    /* background: linear-gradient(to right, transparent, #f3f3f3, transparent); */
 }
 
 .mainForm_docs_element{
@@ -211,6 +211,10 @@
     height: 20px;
 }
 
+.grayState{
+    background-color: #fcfcfc;
+}
+
 .blueState {
     background-color: rgba(0, 0, 255, 0.2);
 }
@@ -227,6 +231,9 @@
     background-color: rgba(0, 128, 0, 0.2);
 }
 
+.grayState:hover{
+    background-color: #f3f3f3;
+}
 .blueState:hover{
     background-color: rgba(0, 0, 255, 0.3);
 }
@@ -238,4 +245,15 @@
 }
 .greenState:hover{
     background-color: rgba(0, 128, 0, 0.3);
+}
+
+.documentGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.documentGroup h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

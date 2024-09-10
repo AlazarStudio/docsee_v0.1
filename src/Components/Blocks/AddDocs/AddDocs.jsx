@@ -12,6 +12,7 @@ import CreateActForm from "../CreateActForm/CreateActForm.jsx";
 import CreateReportForm from "../CreateReportForm/CreateReportForm.jsx";
 
 function AddDocs() {
+    // Состояния для меню и модальных окон
     const [menuOpenIndex, setMenuOpenIndex] = useState(null);
     const [downloadMenuOpenIndex, setDownloadMenuOpenIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,32 +21,34 @@ function AddDocs() {
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [isActModalOpen, setIsActModalOpen] = useState(false);
 
+    // Состояния для документов и контрагентов
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
     const [docList, setDocList] = useState([]);
     const [currentContract, setCurrentContract] = useState(null);
     const [filesToDownload, setFilesToDownload] = useState([]);
 
+    // Состояния для сортировки и поиска
+    const [sortColumn, setSortColumn] = useState('date');
+    const [sortDirection, setSortDirection] = useState('asc'); // 'asc' для возрастания, 'desc' для убывания
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const documentStates = ['Создан', 'Закрывающие готовы', 'Cогласование', 'Ждет оплаты', 'Оплачен'];
+
+    // Функция для получения данных
     const fetchDocuments = () => {
         GET_DATA('documents.json', setDocList);
         GET_DATA('ipName.json', setIpList);
         GET_DATA('contragents.json', setCounterpartyList);
     };
 
-    const sortDocumentsByDate = (documents) => {
-        return documents.sort((a, b) => {
-            const dateA = new Date(a.data.numberDate);
-            const dateB = new Date(b.data.numberDate);
-            return dateB - dateA;  // Сортировка по убыванию
-        });
-    };
-
-
     useEffect(() => {
         fetchDocuments();
     }, []);
 
+    // Функции для управления меню и модальными окнами
     const toggleMenu = (index) => {
         setMenuOpenIndex(prevIndex => (prevIndex === index ? null : index));
     };
@@ -96,6 +99,32 @@ function AddDocs() {
         setCurrentContract(null);
     };
 
+    const openActModal = (contract) => {
+        setCurrentContract(contract);
+        setIsActModalOpen(true);
+    };
+
+    const closeActModal = () => {
+        setIsActModalOpen(false);
+        setCurrentContract(null);
+    };
+
+    const openReportModal = (contract) => {
+        setCurrentContract(contract);
+        setIsReportModalOpen(true);
+    };
+
+    const closeReportModal = () => {
+        setIsReportModalOpen(false);
+        setCurrentContract(null);
+    };
+
+    const closeDownloadModal = () => {
+        setIsDownloadModalOpen(false);
+        setFilesToDownload([]);
+    };
+
+    // Функции для обработки данных
     const handleIpSubmit = (ipData) => {
         setIpList(prevList => [...prevList, ipData]);
         closeIpModal();
@@ -122,35 +151,12 @@ function AddDocs() {
         }
     };
 
-    const [isActModalOpen, setIsActModalOpen] = useState(false);
-
-    const openActModal = (contract) => {
-        setCurrentContract(contract);
-        setIsActModalOpen(true);
-    };
-
-    const closeActModal = () => {
-        setIsActModalOpen(false);
-        setCurrentContract(null);
-    };
-
-    const openReportModal = (contract) => {
-        setCurrentContract(contract);
-        setIsReportModalOpen(true);
-    };
-
-    const closeReportModal = () => {
-        setIsReportModalOpen(false);
-        setCurrentContract(null);
-    };
-
     const handleActSubmit = async (data) => {
         const formData = {
             creationDate: data.date,
             contractType: currentContract.data.contractType,
             contractName: currentContract.filename
         };
-        console.log(formData);
         try {
             await axios.post('https://backend.demoalazar.ru/generate-acts', { formData });
             closeActModal();
@@ -197,7 +203,6 @@ function AddDocs() {
         }
     };
 
-
     const handleDownload = (option) => {
         if (option.type === 'single') {
             const link = document.createElement('a');
@@ -210,19 +215,11 @@ function AddDocs() {
         }
     };
 
-    const closeDownloadModal = () => {
-        setIsDownloadModalOpen(false);
-        setFilesToDownload([]);
-    };
-
-    const [sortColumn, setSortColumn] = useState('porNumber');
-    const [sortDirection, setSortDirection] = useState('asc'); // 'asc' для возрастания, 'desc' для убывания
-
+    // Функции для сортировки и фильтрации
     const handleSort = (column) => {
         let newSortDirection = 'asc';
 
         if (sortColumn === column) {
-            // Если кликнули на ту же колонку, меняем направление сортировки
             newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         }
 
@@ -233,7 +230,6 @@ function AddDocs() {
 
     const sortDocuments = (column, direction) => {
         const sortedDocuments = [...docList].sort((a, b) => {
-            // console.log(docList)
             let compareA, compareB;
             switch (column) {
                 case 'porNumber':
@@ -278,18 +274,15 @@ function AddDocs() {
 
     const convertDate = (dateString) => {
         const [day, month, year] = dateString.split('.');
-        return `${month}-${day}-${year}`;
+        return `${year}-${month}-${day}`;
     };
 
-
-    // функция для отображения стрелки
     const renderSortArrow = (column) => {
         if (sortColumn !== column) return null;
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
-    const [searchQuery, setSearchQuery] = useState('');
-
+    // Фильтрация документов по поисковому запросу
     const filteredDocuments = docList.filter(doc => {
         const searchLower = searchQuery.toLowerCase();
         return (
@@ -301,27 +294,39 @@ function AddDocs() {
         );
     });
 
-
-    // const [stateDogovor, setStateDogovor] = useState('Создан');
-
+    // Функция для обновления состояния документа
     const changeStateDogovor = (filename, stateDogovor) => {
-        handleUpdateStateDocument(filename, stateDogovor)
-    }
+        handleUpdateStateDocument(filename, stateDogovor);
+    };
 
     const handleUpdateStateDocument = async (filename, state) => {
-
         try {
             await axios.put('https://backend.demoalazar.ru/update-document-state', {
                 data: { filename, state }
             });
             fetchDocuments();
-            // alert(`Состояние документа ${filename} успешно изменено`);
         } catch (error) {
             console.error("Ошибка запроса", error);
             alert('Ошибка при отправке данных');
         }
     };
 
+    // Группировка документов по состоянию
+    const groupDocumentsByState = (documents) => {
+        return documents.reduce((acc, doc) => {
+            const state = doc.state;
+            if (!acc[state]) {
+                acc[state] = [];
+            }
+            acc[state].push(doc);
+            return acc;
+        }, {});
+    };
+
+    // Получаем сгруппированные документы
+    const groupedDocuments = groupDocumentsByState(filteredDocuments);
+
+    console.log(groupedDocuments)
 
     return (
         <div className={classes.main}>
@@ -347,7 +352,7 @@ function AddDocs() {
                 <div className={classes.mainForm_docs_title}>
                     <div className={classes.mainForm_docs_element}>
                         <div className={classes.mainForm_docs_element_info}>
-                            <div className={classes.mainForm_docs_element_num} onClick={() => handleSort('porNumber')}>№ {renderSortArrow('porNumber')}</div>
+                            {/* <div className={classes.mainForm_docs_element_num} onClick={() => handleSort('porNumber')}>№ {renderSortArrow('porNumber')}</div> */}
                             <div className={classes.mainForm_docs_element_name} onClick={() => handleSort('name')}>Наименование договора {renderSortArrow('name')}</div>
                             <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('subject')}>Предмет договора {renderSortArrow('subject')}</div>
                             <div className={classes.mainForm_docs_element_contr} onClick={() => handleSort('contragent')}>Контрагент {renderSortArrow('contragent')}</div>
@@ -358,133 +363,146 @@ function AddDocs() {
                     </div>
                 </div>
 
+                {/* Рендеринг документов, сгруппированных по состояниям */}
                 <div className={classes.mainForm_docs}>
-                    {(docList && docList.length > 0) && filteredDocuments.map((doc, index) => {
-                        const downloadOptions = [];
+                    {documentStates.map((state) => (
+                        <div key={state} className={classes.documentGroup}>
+                            {groupedDocuments[state] && groupedDocuments[state].length > 0 && <h3>{state}</h3>}
+                            {groupedDocuments[state] && groupedDocuments[state].length > 0 && (
+                                groupedDocuments[state].map((doc, index) => {
+                                    const downloadOptions = [];
 
-                        if (doc.filename) {
-                            downloadOptions.push({ label: "Скачать договор", type: 'single', url: doc.filename });
-                        }
-                        if (doc.expenses && doc.expenses.length > 0) {
-                            if (doc.expenses.length === 1) {
-                                downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
-                            } else {
-                                downloadOptions.push({
-                                    label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({
-                                        label: `Счет №${expense.expensesNumber} от ${expense.creationDate} для ${doc.filename}`,
-                                        url: expense.filename
-                                    }))
-                                });
-                            }
-                        }
-                        if (doc.acts && doc.acts.length > 0) {
-                            if (doc.acts.length === 1) {
-                                downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
-                            } else {
-                                downloadOptions.push({
-                                    label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({
-                                        label: `Акт №${act.actsNumber} от ${act.creationDate} для ${doc.filename}`,
-                                        url: act.filename
-                                    }))
-                                });
-                            }
-                        }
-                        if (doc.reports && doc.reports.length > 0) {
-                            if (doc.reports.length === 1) {
-                                downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
-                            } else {
-                                downloadOptions.push({
-                                    label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({
-                                        label: `Отчет от ${report.creationDate} для ${doc.filename}`,
-                                        url: report.filename
-                                    }))
-                                });
-                            }
-                        }
-                        if (doc.brif && doc.brif.length > 0) {
-                            if (doc.brif.length === 1) {
-                                downloadOptions.push({ label: "Скачать бриф", type: 'single', url: doc.brif[0].filename });
-                            } else {
-                                downloadOptions.push({ label: "Скачать бриф", type: 'multiple', files: doc.brif.map(brif => ({ label: `Бриф ${brif.creationDate}`, url: brif.filename })) });
-                            }
-                        }
-
-                        return (
-                            <div className={`
-                                ${classes.mainForm_docs_element} 
-                                ${doc.state == 'Закрывающие готовы' && classes.blueState}
-                                ${doc.state == 'Cогласование' && classes.yellowState}
-                                ${doc.state == 'Ждет оплаты' && classes.orangeState}
-                                ${doc.state == 'Оплачен' && classes.greenState}
-                            `} key={index}>
-                                <div className={classes.mainForm_docs_element_info}>
-                                    <div className={classes.mainForm_docs_element_num}>{doc.porNumber}</div>
-                                    <div className={classes.mainForm_docs_element_name}>
-                                        Договор №{doc.data.contractNumber} {
-                                            doc.data.receiver ?
-                                                (doc.data.receiver.type == 'Самозанятый' ? doc.data.receiver.fullName : doc.data.receiver.shortName) :
-                                                doc.data.contragent ?
-                                                    (doc.data.contragent.type == 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName)
-                                                    : ''
+                                    if (doc.filename) {
+                                        downloadOptions.push({ label: "Скачать договор", type: 'single', url: doc.filename });
+                                    }
+                                    if (doc.expenses && doc.expenses.length > 0) {
+                                        if (doc.expenses.length === 1) {
+                                            downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
+                                        } else {
+                                            downloadOptions.push({
+                                                label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({
+                                                    label: `Счет №${expense.expensesNumber} от ${expense.creationDate} для ${doc.filename}`,
+                                                    url: expense.filename
+                                                }))
+                                            });
                                         }
-                                    </div>
-                                    <div className={classes.mainForm_docs_element_contr}>{doc.data.contractSubjectNom}</div>
-                                    <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
-                                    <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
-                                    <div className={classes.mainForm_docs_element_price}>{Number(doc.data.stoimostNumber).toLocaleString('ru-RU')} ₽</div>
-                                    <div className={classes.mainForm_docs_element_state}>
-                                        <select onChange={(e) => changeStateDogovor(doc.filename, e.target.value)} value={doc.state}>
-                                            <option value="Создан">Создан</option>
-                                            <option value="Закрывающие готовы">Закрывающие готовы</option>
-                                            <option value="Cогласование">Cогласование</option>
-                                            <option value="Ждет оплаты">Ждет оплаты</option>
-                                            <option value="Оплачен">Оплачен</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className={classes.mainForm_docs_element_btns}>
-                                    <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(index)} />
-                                    {downloadMenuOpenIndex === index && (
-                                        <DropdownMenu
-                                            options={downloadOptions.map(option => option.label)}
-                                            onClose={closeDownloadMenu}
-                                            onSelect={(selectedOption) => {
-                                                const selectedDownloadOption = downloadOptions.find(option => option.label === selectedOption);
-                                                handleDownload(selectedDownloadOption);
-                                                closeDownloadMenu();
-                                            }}
-                                        />
-                                    )}
-                                    <img src="/dots.png" alt="" onClick={() => toggleMenu(index)} />
-                                    {menuOpenIndex === index && (
-                                        <DropdownMenu
-                                            options={[
-                                                "Создать счет",
-                                                "Создать акт",
-                                                "Создать отчет",
-                                                // "Создать бриф",
-                                            ]}
-                                            onClose={closeMenu}
-                                            onSelect={(option) => {
-                                                closeMenu();
-                                                if (option === "Создать счет") {
-                                                    openInvoiceModal(doc);
-                                                } else if (option === "Создать акт") {
-                                                    openActModal(doc);
-                                                } else if (option === "Создать отчет") {
-                                                    openReportModal(doc);
-                                                }
-                                            }}
-                                        />
-                                    )}
-                                    <img className={classes.deleteIcon} src="/delete.png" alt="" onClick={() => handleDeleteDocument(doc.filename)} />
-                                </div>
-                            </div>
-                        );
-                    })}
+                                    }
+                                    if (doc.acts && doc.acts.length > 0) {
+                                        if (doc.acts.length === 1) {
+                                            downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
+                                        } else {
+                                            downloadOptions.push({
+                                                label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({
+                                                    label: `Акт №${act.actsNumber} от ${act.creationDate} для ${doc.filename}`,
+                                                    url: act.filename
+                                                }))
+                                            });
+                                        }
+                                    }
+                                    if (doc.reports && doc.reports.length > 0) {
+                                        if (doc.reports.length === 1) {
+                                            downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
+                                        } else {
+                                            downloadOptions.push({
+                                                label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({
+                                                    label: `Отчет от ${report.creationDate} для ${doc.filename}`,
+                                                    url: report.filename
+                                                }))
+                                            });
+                                        }
+                                    }
+                                    if (doc.brif && doc.brif.length > 0) {
+                                        if (doc.brif.length === 1) {
+                                            downloadOptions.push({ label: "Скачать бриф", type: 'single', url: doc.brif[0].filename });
+                                        } else {
+                                            downloadOptions.push({ label: "Скачать бриф", type: 'multiple', files: doc.brif.map(brif => ({ label: `Бриф ${brif.creationDate}`, url: brif.filename })) });
+                                        }
+                                    }
+
+                                    return (
+                                        <div
+                                            className={`
+                                                ${classes.mainForm_docs_element}
+                                                ${doc.state === 'Создан' && classes.grayState}
+                                                ${doc.state === 'Закрывающие готовы' && classes.blueState}
+                                                ${doc.state === 'Cогласование' && classes.yellowState}
+                                                ${doc.state === 'Ждет оплаты' && classes.orangeState}
+                                                ${doc.state === 'Оплачен' && classes.greenState}
+                                            `}
+                                            key={doc.filename}
+                                        >
+                                            <div className={classes.mainForm_docs_element_info}>
+                                                {/* <div className={classes.mainForm_docs_element_num}>{doc.porNumber}</div> */}
+                                                <div className={classes.mainForm_docs_element_name}>
+                                                    Договор №{doc.data.contractNumber} {
+                                                        doc.data.receiver ?
+                                                            (doc.data.receiver.type === 'Самозанятый' ? doc.data.receiver.fullName : doc.data.receiver.shortName) :
+                                                            doc.data.contragent ?
+                                                                (doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName)
+                                                                : ''
+                                                    }
+                                                </div>
+                                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contractSubjectNom}</div>
+                                                <div className={classes.mainForm_docs_element_contr}>{doc.data.contragent.type === 'Самозанятый' ? doc.data.contragent.fullName : doc.data.contragent.shortName}</div>
+                                                <div className={classes.mainForm_docs_element_date}>{doc.data.numberDate}</div>
+                                                <div className={classes.mainForm_docs_element_price}>{doc.data.stoimostNumber.toLocaleString('ru-RU')} ₽</div>
+                                                <div className={classes.mainForm_docs_element_state}>
+                                                    <select onChange={(e) => changeStateDogovor(doc.filename, e.target.value)} value={doc.state}>
+                                                        <option value="Создан">Создан</option>
+                                                        <option value="Закрывающие готовы">Закрывающие готовы</option>
+                                                        <option value="Cогласование">Cогласование</option>
+                                                        <option value="Ждет оплаты">Ждет оплаты</option>
+                                                        <option value="Оплачен">Оплачен</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className={classes.mainForm_docs_element_btns}>
+                                                <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(doc.filename)} />
+                                                {downloadMenuOpenIndex === doc.filename && (
+                                                    <DropdownMenu
+                                                        options={downloadOptions.map(option => option.label)}
+                                                        onClose={closeDownloadMenu}
+                                                        onSelect={(selectedOption) => {
+                                                            const selectedDownloadOption = downloadOptions.find(option => option.label === selectedOption);
+                                                            handleDownload(selectedDownloadOption);
+                                                            closeDownloadMenu();
+                                                        }}
+                                                    />
+                                                )}
+                                                <img src="/dots.png" alt="" onClick={() => toggleMenu(doc.filename)} />
+                                                {menuOpenIndex === doc.filename && (
+                                                    <DropdownMenu
+                                                        options={[
+                                                            "Создать счет",
+                                                            "Создать акт",
+                                                            "Создать отчет",
+                                                        ]}
+                                                        onClose={closeMenu}
+                                                        onSelect={(option) => {
+                                                            closeMenu();
+                                                            if (option === "Создать счет") {
+                                                                openInvoiceModal(doc);
+                                                            } else if (option === "Создать акт") {
+                                                                openActModal(doc);
+                                                            } else if (option === "Создать отчет") {
+                                                                openReportModal(doc);
+                                                            }
+                                                        }}
+                                                    />
+                                                )}
+                                                <img className={classes.deleteIcon} src="/delete.png" alt="" onClick={() => handleDeleteDocument(doc.filename)} />
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+                    ))}
                 </div>
+
             </div>
 
+            {/* Модальные окна */}
             <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <CreateDocument closeModal={closeModal} fetchDocuments={fetchDocuments} ipList={ipList} counterpartyList={counterpartyList} openIpModal={openIpModal} openCounterpartyModal={openCounterpartyModal} />
             </Modal>

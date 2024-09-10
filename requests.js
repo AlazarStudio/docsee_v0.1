@@ -4,16 +4,23 @@ export const GET_DATA = async (filename, functionState) => {
     try {
         const response = await axios.get(`https://backend.demoalazar.ru/db/${filename}`);
 
+        // Конвертируем дату в объект Date для корректной сортировки
+        const convertDate = (dateString) => {
+            const [day, month, year] = dateString.split('.');
+            return new Date(`${year}-${month}-${day}`);
+        };
+
         if (response.data && Array.isArray(response.data)) {
-            response.data = response.data.reverse().map((item, index) => {
-                if (item.data && item.data.stoimostNumber) {
-                    item.data.stoimostNumber = item.data.stoimostNumber.replace(/\s+/g, '');
-                    item.porNumber = index + 1
+            response.data.sort((a, b) => {
+                if (a.data && b.data && a.data.numberDate && b.data.numberDate) {
+                    // Сравниваем объекты Date
+                    return convertDate(b.data.numberDate) - convertDate(a.data.numberDate);
                 }
-                return item;
+                return 0; // Если дата отсутствует, пропустить сортировку для этого элемента
             });
         }
 
+        // Устанавливаем отсортированные данные в state
         functionState(response.data);
     } catch (error) {
         console.error("Ошибка запроса", error);
