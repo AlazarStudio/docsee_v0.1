@@ -4,7 +4,7 @@ import classes from './Notification.module.css';
 const Notification = ({ message, status, clearNotification }) => {
     const [visible, setVisible] = useState(false);
 
-    console.log(status)
+    // console.log(status)
 
     useEffect(() => {
         if (message) {

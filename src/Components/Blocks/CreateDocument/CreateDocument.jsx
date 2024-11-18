@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { rubles } from 'rubles';
 import classes from './CreateDocument.module.css';
 import axios from 'axios';
+import DropDownList from '../../Standart/DropDownList/DropDownList';
 
 function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, openCounterpartyModal, fetchDocuments }) {
     const [contractType, setContractType] = useState('2');
@@ -11,6 +12,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     const [writtenAmountAct, setWrittenAmountAct] = useState('');
     const [writtenAmountDogovor, setWrittenAmountDogovor] = useState('');
     const [template, setTemplate] = useState('');
+    const [templateLabel, setTemplateLabel] = useState('');
     const [ip, setIp] = useState('');
     const [contragent, setContragent] = useState('');
     const [receiver, setReceiver] = useState('');
@@ -23,7 +25,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     const [services, setServices] = useState([{ id: 1, name: "", quantity: 1, unit: "шт.", pricePerUnit: "", vat: "Без НДС", totalPrice: "" }]);
 
     const handleContractTypeChange = (event) => {
-        setContractType(event.target.value);
+        setContractType(event);
     };
 
     function getDate(dateInfo, type = 'numeric') {
@@ -43,7 +45,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
     };
 
     const handleIpChange = (event) => {
-        const selectedIpName = event.target.value;
+        const selectedIpName = event;
         setIp(selectedIpName);
 
         const selectedIp = ipList.find(ipItem => ipItem.orgName === selectedIpName);
@@ -116,7 +118,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         } else {
             console.error("Error: sumForDogovor is not a string", sumForDogovor);
         }
-        
+
         setContractJustNumber(String(Number(totalAmount.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ',').split(',')[0])
         setStoimostNumber(String(Number(totalAmount.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
     };
@@ -169,10 +171,10 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             fetchDocuments()
 
             alert(`Договор №${formData.contractNumber} ${formData.receiver ?
-                    (formData.receiver.type == 'Самозанятый' ? formData.receiver.fullName : formData.receiver.shortName) :
-                    formData.contragent ?
-                        (formData.contragent.type == 'Самозанятый' ? formData.contragent.fullName : formData.contragent.shortName)
-                        : ''
+                (formData.receiver.type == 'Самозанятый' ? formData.receiver.fullName : formData.receiver.shortName) :
+                formData.contragent ?
+                    (formData.contragent.type == 'Самозанятый' ? formData.contragent.fullName : formData.contragent.shortName)
+                    : ''
                 } успешно создан`
             );
             location.reload();
@@ -230,61 +232,116 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             <form className={classes.modalForm} onSubmit={handleSubmit}>
                 <div>
                     <label>Тип договора:</label>
-                    <select required value={contractType} onChange={handleContractTypeChange}>
+                    <DropDownList
+                        width="65%"
+                        placeholder="Выберите тип договора"
+                        searchable={false}
+                        options={["Двухсторонний", "Трехсторонний"]}
+                        onSelect={(value) => {
+                            value == "Двухсторонний" && handleContractTypeChange("2")
+                            value == "Трехсторонний" && handleContractTypeChange("3")
+                            setTemplate('')
+                            setTemplateLabel('')
+                        }}
+                    />
+                    {/* <select required={false} value={contractType} onChange={handleContractTypeChange}>
                         <option value="" disabled>Выберите тип договора</option>
                         <option value="2">Двухсторонний</option>
                         <option value="3">Трехсторонний</option>
-                    </select>
+                    </select> */}
                 </div>
                 {contractType === '2' ?
                     <div>
                         <label>Шаблон договора:</label>
-                        <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
+                        <DropDownList
+                            width="65%"
+                            placeholder="Выберите шаблон"
+                            searchable={false}
+                            initialValue={templateLabel}
+                            options={list_2_side.map((listItem) => listItem.label)}
+                            onSelect={(value) => {
+                                const selected = list_2_side.find(listItem => listItem.label === value);
+                                setTemplate(selected.template)
+                                setTemplateLabel(selected.label)
+                            }}
+                        />
+                        {/* <select required={false} value={template} onChange={(e) => setTemplate(e.target.value)}>
                             <option value="" disabled>Выберите шаблон</option>
                             {list_2_side.map((listItem, index) => (
                                 <option key={index} value={listItem.template}>{listItem.label}</option>
                             ))}
-                        </select>
+                        </select> */}
                     </div>
                     :
                     contractType === '3' ?
                         <div>
                             <label>Шаблон договора:</label>
-                            <select required value={template} onChange={(e) => setTemplate(e.target.value)}>
+                            <DropDownList
+                                width="65%"
+                                placeholder="Выберите шаблон"
+                                searchable={false}
+                                initialValue={templateLabel}
+                                options={list_3_side.map((listItem) => listItem.label)}
+                                onSelect={(value) => {
+                                    const selected = list_3_side.find(listItem => listItem.label === value);
+                                    setTemplate(selected.template)
+                                    setTemplateLabel(selected.label)
+                                }}
+                            />
+                            {/* <select required={false} value={template} onChange={(e) => setTemplate(e.target.value)}>
                                 <option value="" disabled>Выберите шаблон</option>
                                 {list_3_side.map((listItem, index) => (
                                     <option key={index} value={listItem.template}>{listItem.label}</option>
                                 ))}
-                            </select>
+                            </select> */}
                         </div>
                         : ''
                 }
-                <div div >
+                <div>
                     <label>Выбор ИП:</label>
 
                     <div className={classes.modalSelectButton}>
-                        <select required value={ip} onChange={handleIpChange}>
+                        <DropDownList
+                            width="100%"
+                            placeholder="Выберите ИП"
+                            searchable={true}
+                            options={ipList.map((ipItem) => ipItem.orgName)}
+                            onSelect={(value) => {
+                                handleIpChange(value)
+                            }}
+                        />
+                        {/* <select required={false} value={ip} onChange={handleIpChange}>
                             <option value="" disabled>Выберите ИП</option>
                             {ipList.map((ipItem, index) => (
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                             ))}
-                        </select>
+                        </select> */}
                         <button type="button" className={classes.addButton} onClick={openIpModal}>+</button>
                     </div>
                 </div>
                 <div>
                     <label>Номер договора:</label>
-                    <input required type="text" value={contractNumber} placeholder={"1-24"} readOnly />
+                    <input required={false} type="text" value={contractNumber} placeholder={"1-24"} readOnly />
                 </div>
                 <div>
                     <label>Выбор контрагента:</label>
                     <div className={classes.modalSelectButton}>
-                        <select required value={contragent} onChange={(e) => setContragent(e.target.value)}>
+                        <DropDownList
+                            width="100%"
+                            placeholder="Выберите контрагента"
+                            searchable={true}
+                            options={counterpartyList.map((ipItem) => ipItem.orgName)}
+                            onSelect={(value) => {
+                                setContragent(value)
+                            }}
+                        />
+
+                        {/* <select required={false} value={contragent} onChange={(e) => setContragent(e.target.value)}>
                             <option value="" disabled>Выберите контрагента</option>
                             {counterpartyList.map((ipItem, index) => (
                                 <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                             ))}
-                        </select>
+                        </select> */}
                         <button type="button" className={classes.addButton} onClick={openCounterpartyModal}>+</button>
                     </div>
                 </div>
@@ -292,35 +349,45 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <div>
                         <label>Выбор получателей услуг:</label>
                         <div className={classes.modalSelectButton}>
-                            <select required value={receiver} onChange={(e) => setReceiver(e.target.value)}>
+                            <DropDownList
+                                width="100%"
+                                placeholder="Выберите получателя услуг"
+                                searchable={true}
+                                options={counterpartyList.map((ipItem) => ipItem.orgName)}
+                                onSelect={(value) => {
+                                    setReceiver(value)
+                                }}
+                            />
+
+                            {/* <select required={false} value={receiver} onChange={(e) => setReceiver(e.target.value)}>
                                 <option value="" disabled>Выберите получателя услуг</option>
                                 {counterpartyList.map((ipItem, index) => (
                                     <option key={index} value={ipItem.orgName}>{ipItem.orgName}</option>
                                 ))}
-                            </select>
+                            </select> */}
                             <button type="button" className={classes.addButton} onClick={openCounterpartyModal}>+</button>
                         </div>
                     </div>
                 )}
                 <div>
                     <label>Дата договора цифры:</label>
-                    <input required type="date" onChange={handleDateChange} />
+                    <input required={false} type="date" onChange={handleDateChange} />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Дата договора прописью:</label>
-                    <input required type="text" value={writtenDate} readOnly />
+                    <input required={false} type="text" value={writtenDate} readOnly />
                 </div>
                 <div>
                     <label>Предмет договора (именительном падеже):</label>
-                    <input required type="text" value={contractSubjectNom} placeholder={'Разработка логотипа и фирменного стиля'} onChange={(e) => setContractSubjectNom(e.target.value)} />
+                    <input required={false} type="text" value={contractSubjectNom} placeholder={'Разработка логотипа и фирменного стиля'} onChange={(e) => setContractSubjectNom(e.target.value)} />
                 </div>
                 <div>
                     <label>Предмет договора (наименование работ в родительном падеже):</label>
-                    <input required type="text" value={contractSubjectGen} placeholder={'Разработке логотипа и фирменного стиля'} onChange={(e) => setContractSubjectGen(e.target.value)} />
+                    <input required={false} type="text" value={contractSubjectGen} placeholder={'Разработке логотипа и фирменного стиля'} onChange={(e) => setContractSubjectGen(e.target.value)} />
                 </div>
                 <div>
                     <label>Дата действия договора (до):</label>
-                    <input required type="date" onChange={handleContractEndDateChange} />
+                    <input required={false} type="date" onChange={handleContractEndDateChange} />
                 </div>
                 <table className={classes.serviceTable}>
                     <thead>
@@ -353,11 +420,11 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 </div>
                 <div>
                     <label>Стоимость</label>
-                    <input required type="text" value={amount} readOnly />
+                    <input required={false} type="text" value={amount} readOnly />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Стоимость прописью:</label>
-                    <input required type="text" value={writtenAmountAct} readOnly />
+                    <input required={false} type="text" value={writtenAmountAct} readOnly />
                 </div>
 
                 <button type="submit">Создать</button>
