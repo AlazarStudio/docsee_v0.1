@@ -38,7 +38,7 @@ function AddDocs() {
 
     const [notification, setNotification] = useState({ message: "", status: "" });
 
-    const documentStates = ['Создан', 'Закрывающие готовы', 'Согласование', 'Ждет оплаты', 'Оплачен'];
+    const documentStates = ['Создан', 'Согласование', 'Закрывающие готовы', 'Ждет оплаты', 'Оплачен'];
 
     const clearNotification = () => {
         setNotification({ message: "", status: "" });
@@ -175,7 +175,7 @@ function AddDocs() {
             // alert(`Акт для документа ${formData.contractName} успешно создан`);
         } catch (error) {
             console.error("Ошибка запроса", error);
-            
+
             setNotification({ message: "Ошибка при отправке данных", status: "error" });
             // alert('Ошибка при отправке данных');
         }
