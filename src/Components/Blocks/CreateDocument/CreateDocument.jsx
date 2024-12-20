@@ -209,6 +209,10 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             template: "Template_3_side_document",
         },
         {
+            label: "Договор Комплексные Дизайн/Инфографика",
+            template: "Template_3_side_document_design",
+        },
+        {
             label: "Договор Комплексные Видео",
             template: "Template_3_side_document_video",
         },
