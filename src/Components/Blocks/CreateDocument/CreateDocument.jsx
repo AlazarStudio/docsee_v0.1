@@ -201,6 +201,10 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         {
             label: "Договор реклама",
             template: "Template_2_side_document_marketing",
+        },
+        {
+            label: "Договор по предоставлению серверных мощностей",
+            template: "Template_2_side_dogovor_arenda_serverov.docx",
         }
     ]
 
