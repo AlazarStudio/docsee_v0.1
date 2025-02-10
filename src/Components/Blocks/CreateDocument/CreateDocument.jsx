@@ -204,7 +204,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         },
         {
             label: "Договор по предоставлению серверных мощностей",
-            template: "Template_2_side_dogovor_arenda_serverov.docx",
+            template: "Template_2_side_dogovor_arenda_serverov",
         }
     ]
 
