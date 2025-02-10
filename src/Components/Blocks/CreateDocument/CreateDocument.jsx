@@ -55,8 +55,8 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             let newContractNumber;
             const currentDate = new Date();
             const currentMonth = currentDate.getMonth() + 1;
-            const currentYear = currentDate.getFullYear().toString().slice(-2);
-            // const currentYear = '24';
+            // const currentYear = currentDate.getFullYear().toString().slice(-2);
+            const currentYear = '24';
 
             if (selectedIp.fullName.includes('Уртенов')) {
                 newContractNumber = `${+lastDocNumber + 1}-${currentYear}`;
