@@ -354,6 +354,13 @@ function AddDocs() {
     // const triggerErrorNotification = () => {
     //     setNotification({ message: "Operation failed!", status: "error" });
     // };
+
+    
+    const handleExit = () => {
+        localStorage.clear();
+        window.location.reload();
+    }
+    
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -373,6 +380,7 @@ function AddDocs() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
+                    <img src="/exit.png" alt="" style={{width: '20px', cursor: 'pointer'}} onClick={handleExit} />
                 </div>
 
                 <div className={classes.mainForm_docs_title}>
