@@ -26,7 +26,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
         navigate("/");
     }
     
-    const admin = { login: "admin", password: 'admin' };
+    const admin = { login: "docsee-admin-panel", password: 'O%#*PIUtiogj9' };
 
     const handleLogin = async () => {
         if (!login || !password) {
