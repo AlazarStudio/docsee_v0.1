@@ -51,6 +51,7 @@ function AddDocs() {
         GET_DATA('documents.json', setDocList);
         GET_DATA('ipName.json', setIpList);
         GET_DATA('contragents.json', setCounterpartyList);
+        console.log(123)
     };
 
     useEffect(() => {
@@ -161,7 +162,7 @@ function AddDocs() {
 
             setNotification({ message: `Счет для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Счет для документа ${formData.contractName} успешно создан`);
-            setIsFetch(true)
+            setIsFetch(prev => !prev)
         } catch (error) {
             console.error("Ошибка запроса", error);
             setNotification({ message: "Ошибка при отправке данных", status: "error" });
@@ -186,7 +187,7 @@ function AddDocs() {
             fetchDocuments();
             setNotification({ message: `Акт для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Акт для документа ${formData.contractName} успешно создан`);
-            setIsFetch(true)
+            setIsFetch(prev => !prev)
         } catch (error) {
             console.error("Ошибка запроса", error);
 
@@ -208,7 +209,7 @@ function AddDocs() {
             fetchDocuments();
             setNotification({ message: `Отчет для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Отчет для документа ${formData.contractName} успешно создан`);
-            setIsFetch(true)
+            setIsFetch(prev => !prev)
         } catch (error) {
             console.error("Ошибка запроса", error);
             setNotification({ message: "Ошибка при отправке данных", status: "error" });
@@ -428,36 +429,36 @@ function AddDocs() {
                                         // if (doc.expenses.length === 1) {
                                         //     downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
                                         // } else {
-                                            downloadOptions.push({
-                                                label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({
-                                                    label: `Счет №${expense.expensesNumber} от ${expense.creationDate} для ${doc.filename}`,
-                                                    url: expense.filename
-                                                }))
-                                            });
+                                        downloadOptions.push({
+                                            label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({
+                                                label: `Счет №${expense.expensesNumber} от ${expense.creationDate} для ${doc.filename}`,
+                                                url: expense.filename
+                                            }))
+                                        });
                                         // }
                                     }
                                     if (doc.acts && doc.acts.length > 0) {
                                         // if (doc.acts.length === 1) {
                                         //     downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
                                         // } else {
-                                            downloadOptions.push({
-                                                label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({
-                                                    label: `Акт №${act.actsNumber} от ${act.creationDate} для ${doc.filename}`,
-                                                    url: act.filename
-                                                }))
-                                            });
+                                        downloadOptions.push({
+                                            label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({
+                                                label: `Акт №${act.actsNumber} от ${act.creationDate} для ${doc.filename}`,
+                                                url: act.filename
+                                            }))
+                                        });
                                         // }
                                     }
                                     if (doc.reports && doc.reports.length > 0) {
                                         // if (doc.reports.length === 1) {
                                         //     downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
                                         // } else {
-                                            downloadOptions.push({
-                                                label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({
-                                                    label: `Отчет от ${report.creationDate} для ${doc.filename}`,
-                                                    url: report.filename
-                                                }))
-                                            });
+                                        downloadOptions.push({
+                                            label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({
+                                                label: `Отчет от ${report.creationDate} для ${doc.filename}`,
+                                                url: report.filename
+                                            }))
+                                        });
                                         // }
                                     }
                                     if (doc.brif && doc.brif.length > 0) {
@@ -506,7 +507,7 @@ function AddDocs() {
                                                 </div>
                                             </div>
                                             <div className={classes.mainForm_docs_element_btns}>
-                                                <img src="/download_doc.png" alt="" onClick={() => toggleDownloadMenu(doc.filename)} />
+                                                <img src="/download_doc.png" alt="" onClick={() => { toggleDownloadMenu(doc.filename); fetchDocuments(); }} />
                                                 {downloadMenuOpenIndex === doc.filename && (
                                                     <DropdownMenu
                                                         options={downloadOptions.map(option => option.label)}

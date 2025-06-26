@@ -2,7 +2,15 @@ import axios from "axios";
 
 export const GET_DATA = async (filename, functionState) => {
     try {
-        const response = await axios.get(`https://backend.demoalazar.ru/db/${filename}`);
+        const response = await axios.get(`https://backend.demoalazar.ru/db/${filename}`, {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+            },
+            params: {
+                _: Date.now()  // это добавит ?_=1720000000000 и заставит обойти кэш
+            }
+        });
 
         // Конвертируем дату в объект Date для корректной сортировки
         const convertDate = (dateString) => {
