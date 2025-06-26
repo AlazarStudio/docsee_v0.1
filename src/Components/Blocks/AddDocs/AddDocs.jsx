@@ -425,40 +425,40 @@ function AddDocs() {
                                         downloadOptions.push({ label: "Скачать договор", type: 'single', url: doc.filename });
                                     }
                                     if (doc.expenses && doc.expenses.length > 0) {
-                                        if (doc.expenses.length === 1) {
-                                            downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
-                                        } else {
+                                        // if (doc.expenses.length === 1) {
+                                        //     downloadOptions.push({ label: "Скачать счет", type: 'single', url: doc.expenses[0].filename });
+                                        // } else {
                                             downloadOptions.push({
                                                 label: "Скачать счет", type: 'multiple', files: doc.expenses.map(expense => ({
                                                     label: `Счет №${expense.expensesNumber} от ${expense.creationDate} для ${doc.filename}`,
                                                     url: expense.filename
                                                 }))
                                             });
-                                        }
+                                        // }
                                     }
                                     if (doc.acts && doc.acts.length > 0) {
-                                        if (doc.acts.length === 1) {
-                                            downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
-                                        } else {
+                                        // if (doc.acts.length === 1) {
+                                        //     downloadOptions.push({ label: "Скачать акт", type: 'single', url: doc.acts[0].filename });
+                                        // } else {
                                             downloadOptions.push({
                                                 label: "Скачать акт", type: 'multiple', files: doc.acts.map(act => ({
                                                     label: `Акт №${act.actsNumber} от ${act.creationDate} для ${doc.filename}`,
                                                     url: act.filename
                                                 }))
                                             });
-                                        }
+                                        // }
                                     }
                                     if (doc.reports && doc.reports.length > 0) {
-                                        if (doc.reports.length === 1) {
-                                            downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
-                                        } else {
+                                        // if (doc.reports.length === 1) {
+                                        //     downloadOptions.push({ label: "Скачать отчет", type: 'single', url: doc.reports[0].filename });
+                                        // } else {
                                             downloadOptions.push({
                                                 label: "Скачать отчет", type: 'multiple', files: doc.reports.map(report => ({
                                                     label: `Отчет от ${report.creationDate} для ${doc.filename}`,
                                                     url: report.filename
                                                 }))
                                             });
-                                        }
+                                        // }
                                     }
                                     if (doc.brif && doc.brif.length > 0) {
                                         if (doc.brif.length === 1) {
