@@ -24,6 +24,8 @@ function AddDocs() {
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [isActModalOpen, setIsActModalOpen] = useState(false);
 
+    const [isFetch, setIsFetch] = useState(false);
+
     // Состояния для документов и контрагентов
     const [ipList, setIpList] = useState([]);
     const [counterpartyList, setCounterpartyList] = useState([]);
@@ -53,7 +55,7 @@ function AddDocs() {
 
     useEffect(() => {
         fetchDocuments();
-    }, []);
+    }, [isFetch]);
 
     // Функции для управления меню и модальными окнами
     const toggleMenu = (index) => {
@@ -159,6 +161,7 @@ function AddDocs() {
 
             setNotification({ message: `Счет для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Счет для документа ${formData.contractName} успешно создан`);
+            setIsFetch(true)
         } catch (error) {
             console.error("Ошибка запроса", error);
             setNotification({ message: "Ошибка при отправке данных", status: "error" });
@@ -183,6 +186,7 @@ function AddDocs() {
             fetchDocuments();
             setNotification({ message: `Акт для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Акт для документа ${formData.contractName} успешно создан`);
+            setIsFetch(true)
         } catch (error) {
             console.error("Ошибка запроса", error);
 
@@ -204,6 +208,7 @@ function AddDocs() {
             fetchDocuments();
             setNotification({ message: `Отчет для документа ${formData.contractName} успешно создан`, status: "success" });
             // alert(`Отчет для документа ${formData.contractName} успешно создан`);
+            setIsFetch(true)
         } catch (error) {
             console.error("Ошибка запроса", error);
             setNotification({ message: "Ошибка при отправке данных", status: "error" });
