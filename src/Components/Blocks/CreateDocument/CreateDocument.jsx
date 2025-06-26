@@ -70,6 +70,39 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
         }
     };
 
+    const handleSumChange = (e) => {
+        setAmount(e.target.value)
+        let sumForDogovor = rubles(e.target.value.replace(' ', ''));
+
+        setContractJustNumber(String(Number(e.target.value.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ',').split(',')[0])
+        setStoimostNumber(String(Number(e.target.value.replace(',', '.')).toLocaleString('ru-RU')).replace('.', ','));
+        setWrittenAmountAct(sumForDogovor);
+        if (typeof sumForDogovor === 'string') {
+            const regex = /(\d{2} копеек?)$/;
+            const match = sumForDogovor.match(regex);
+
+            if (match) {
+                const kopiekiPart = match[0];
+                const rublesPart = sumForDogovor.replace(regex, '').trim();
+
+                const rubStartIndex = rublesPart.indexOf('рубл');
+                if (rubStartIndex !== -1) {
+                    const beforeRub = rublesPart.slice(0, rubStartIndex).trim();
+                    const afterRub = rublesPart.slice(rubStartIndex).trim();
+                    const finalSumForDogovor = `(${beforeRub}) ${afterRub} ${kopiekiPart}`;
+
+                    setWrittenAmountDogovor(finalSumForDogovor);
+                } else {
+                    setWrittenAmountDogovor(sumForDogovor);
+                }
+            } else {
+                setWrittenAmountDogovor(sumForDogovor);
+            }
+        } else {
+            console.error("Error: sumForDogovor is not a string", sumForDogovor);
+        }
+    }
+
     const handleServiceChange = (index, field, value) => {
         const newServices = [...services];
         newServices[index][field] = value;
@@ -161,7 +194,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
             writtenAmountDogovor,
             stoimostNumber,
             contractEndDate,
-            services,
+            // services,
         };
 
         try {
@@ -398,7 +431,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <label>Дата действия договора (до):</label>
                     <input required={false} type="date" onChange={handleContractEndDateChange} />
                 </div>
-                <table className={classes.serviceTable}>
+                {/* <table className={classes.serviceTable}>
                     <thead>
                         <tr>
                             <th>№</th>
@@ -413,7 +446,7 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                     <tbody>
                         {services.map((service, index) => (
                             <tr key={service.id}>
-                                <td>{service.id}</td> {/* Display row number */}
+                                <td>{service.id}</td> 
                                 <td><input type="text" value={service.name} onChange={(e) => handleServiceChange(index, 'name', e.target.value)} /></td>
                                 <td><input type="number" value={service.quantity} onChange={(e) => handleServiceChange(index, 'quantity', e.target.value)} /></td>
                                 <td><input type="text" value={service.unit} onChange={(e) => handleServiceChange(index, 'unit', e.target.value)} /></td>
@@ -430,6 +463,15 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 <div>
                     <label>Стоимость</label>
                     <input required={false} type="text" value={amount} readOnly />
+                </div>
+                <div className={classes.hiddenModalBlock}>
+                    <label>Стоимость прописью:</label>
+                    <input required={false} type="text" value={writtenAmountAct} readOnly />
+                </div> 
+                */}
+                <div>
+                    <label>Стоимость</label>
+                    <input required={false} type="text" value={amount} onChange={(e) => handleSumChange(e)} />
                 </div>
                 <div className={classes.hiddenModalBlock}>
                     <label>Стоимость прописью:</label>

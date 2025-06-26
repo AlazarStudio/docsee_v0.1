@@ -145,7 +145,12 @@ function AddDocs() {
     const handleInvoiceSubmit = async (data) => {
         const formData = {
             creationDate: data.date,
-            contractName: currentContract.filename
+            contractName: currentContract.filename,
+            data: {
+                services: data.services,
+                act_stoimostNumber: data.act_stoimostNumber,
+                act_writtenAmountAct: data.act_writtenAmountAct
+            }
         };
         try {
             await axios.post('https://backend.demoalazar.ru/generate-expenses', { formData });
@@ -165,7 +170,12 @@ function AddDocs() {
         const formData = {
             creationDate: data.date,
             contractType: currentContract.data.contractType,
-            contractName: currentContract.filename
+            contractName: currentContract.filename,
+            data: {
+                services: data.services,
+                act_stoimostNumber: data.act_stoimostNumber,
+                act_writtenAmountAct: data.act_writtenAmountAct
+            }
         };
         try {
             await axios.post('https://backend.demoalazar.ru/generate-acts', { formData });
@@ -355,12 +365,12 @@ function AddDocs() {
     //     setNotification({ message: "Operation failed!", status: "error" });
     // };
 
-    
+
     const handleExit = () => {
         localStorage.clear();
         window.location.reload();
     }
-    
+
     return (
         <div className={classes.main}>
             <div className={classes.mainForm}>
@@ -380,7 +390,7 @@ function AddDocs() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <img src="/exit.png" alt="" style={{width: '20px', cursor: 'pointer'}} onClick={handleExit} />
+                    <img src="/exit.png" alt="" style={{ width: '20px', cursor: 'pointer' }} onClick={handleExit} />
                 </div>
 
                 <div className={classes.mainForm_docs_title}>
