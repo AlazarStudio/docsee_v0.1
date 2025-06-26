@@ -97,7 +97,7 @@ function CreateActForm({ onSubmit, onClose }) {
                 setAct_writtenAmountAct(sumForDogovor);
             }
         } else {
-            console.error("Error: sumForDogovor is not a string", sumForDogovor);
+            // console.error("Error: sumForDogovor is not a string", sumForDogovor);
         }
     };
     return (

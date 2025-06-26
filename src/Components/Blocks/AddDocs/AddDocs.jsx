@@ -55,7 +55,7 @@ function AddDocs() {
 
     useEffect(() => {
         fetchDocuments();
-    }, [isFetch]);
+    }, [isFetch, isDownloadModalOpen]);
 
     // Функции для управления меню и модальными окнами
     const toggleMenu = (index) => {
