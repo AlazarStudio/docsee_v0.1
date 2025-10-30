@@ -66,6 +66,10 @@ function CreateDocument({ closeModal, ipList, counterpartyList, openIpModal, ope
                 newContractNumber = `${currentMonth < 10 ? '0' + currentMonth : currentMonth}-${+lastDocNumber + 1}`;
             }
 
+            if (selectedIp.fullName.includes('Чагарова')) {
+                newContractNumber = `${currentMonth < 10 ? '0' + currentMonth : currentMonth}-${+lastDocNumber + 1}`;
+            }
+
             setContractNumber(newContractNumber);
         }
     };
