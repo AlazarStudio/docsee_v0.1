@@ -105,7 +105,7 @@ function AddIp({ onSubmit }) {
                         name="basis"
                         value={ipData.basis}
                         onChange={handleIpDataChange}
-                        placeholder='ОРГНИП'
+                        placeholder='ОГРНИП'
                     />
                 </div>
                 <div>
@@ -166,7 +166,7 @@ function AddIp({ onSubmit }) {
                     <input
                         required
                         type="text"
-                        name="ogrn"
+                        name="ogrnip"
                         value={ipData.ogrnip}
                         onChange={handleIpDataChange}
                         placeholder="323909000029290"

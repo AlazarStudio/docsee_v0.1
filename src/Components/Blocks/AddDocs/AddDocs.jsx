@@ -51,7 +51,6 @@ function AddDocs() {
         GET_DATA('documents.json', setDocList);
         GET_DATA('ipName.json', setIpList);
         GET_DATA('contragents.json', setCounterpartyList);
-        console.log(123)
     };
 
     useEffect(() => {
