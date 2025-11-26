@@ -231,6 +231,10 @@
     background-color: rgba(0, 128, 0, 0.2);
 }
 
+.purpleState {
+    background-color: rgba(128, 0, 128, 0.2);
+}
+
 .grayState:hover{
     background-color: #f3f3f3;
 }
@@ -245,6 +249,9 @@
 }
 .greenState:hover{
     background-color: rgba(0, 128, 0, 0.3);
+}
+.purpleState:hover {
+    background-color: rgba(128, 0, 128, 0.3);
 }
 
 .documentGroup{

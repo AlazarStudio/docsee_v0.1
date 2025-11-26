@@ -40,7 +40,7 @@ function AddDocs() {
 
     const [notification, setNotification] = useState({ message: "", status: "" });
 
-    const documentStates = ['Создан', 'Согласование', 'Закрывающие готовы', 'Ждет оплаты', 'Оплачен'];
+    const documentStates = ['Создан', 'Повторяющиеся', 'Согласование', 'Закрывающие готовы', 'Ждет оплаты', 'Оплачен'];
 
     const clearNotification = () => {
         setNotification({ message: "", status: "" });
@@ -477,6 +477,7 @@ function AddDocs() {
                                                 ${doc.state === 'Согласование' && classes.yellowState}
                                                 ${doc.state === 'Ждет оплаты' && classes.orangeState}
                                                 ${doc.state === 'Оплачен' && classes.greenState}
+                                                ${doc.state === 'Повторяющиеся' && classes.purpleState}
                                             `}
                                             key={doc.filename}
                                         >
@@ -502,6 +503,7 @@ function AddDocs() {
                                                         <option value="Согласование">Согласование</option>
                                                         <option value="Ждет оплаты">Ждет оплаты</option>
                                                         <option value="Оплачен">Оплачен</option>
+                                                        <option value="Повторяющиеся">Повторяющиеся</option>
                                                     </select>
                                                 </div>
                                             </div>
